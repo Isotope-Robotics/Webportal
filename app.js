@@ -36,6 +36,14 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 
 
+app.get("/login", function(req, res){
+    res.render("login");
+})
+
+app.post("/login", function(req, res){
+    res.send("Login Successful" + req.body.username)
+})
+
 //Index Page
 app.get("/", function(req, res){
     res.render("homepage");
@@ -172,6 +180,7 @@ app.get("*", function(req, res){
 })
 
 
+
 function pingdb() {
     var sql_keep = `SELECT 1 + 1 AS solution`; 
     db.conn.query(sql_keep, function (err, result) {
@@ -180,6 +189,8 @@ function pingdb() {
     });
   }
   setInterval(pingdb, 3600000);
+
+
 
 //Server Start
 app.listen(httpPort, function(){

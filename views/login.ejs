@@ -1,0 +1,26 @@
+<%-include('templates/header');-%>
+
+    <link rel="stylesheet" href="login.css">
+
+    <div>
+        <form action="/login" method="post">
+            <div class="loginInputs">
+            <label for="usernameInput">Username:
+                <input type="text" id="usernameInput" placeholder="Username">
+            </label>
+            <label for="passwordInput">Password:
+                <input type="password" id="passwordInput" placeholder="Password">
+            </label>
+            </div>
+
+            <div class="submitArea">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+
+        </form>
+    </div>
+
+
+
+
+    <%-include('templates/footer'); -%>

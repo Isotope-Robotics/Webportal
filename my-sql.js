@@ -1,4 +1,3 @@
-const { data } = require('jquery');
 const mysql = require('mysql2');
 const util = require('util');
 
