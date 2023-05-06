@@ -11,10 +11,6 @@
     text-align: center;
 }
 
-.well {
-    text-align: center;
-}
-
 .scoring-section {
     text-align: justify;
     padding-left: 50px;
@@ -23,21 +19,22 @@
 
 </style>
 <form action="/pit_scouting" method="POST">
-    <div class="well col-lg-6 col-lg-offset-3">
+    <div class="card text-center justify-content-center" style="width: auto;">
         <div class="teamAndRobotInfo">
+            <div>&nbsp;</div>
             <label style="display: inline; text-align: center;" for="teamNumberInput" >Team Number</label>
             <input type="text" id="teamNumberInput" name="teamNumberInput" class="form-control-sm" placeholder="7429">
             <div>&nbsp;</div>
-            <label style="display: inline;" for="teamWeightInput">Robot Weight (lbs) </label>
+            <label style="display: inline; text-align: center;" for="teamWeightInput">Robot Weight</label>
             <input type="text" id="teamWeightInput" name="teamWeightInput" class="form-control-sm" placeholder="150">
             <div>&nbsp;</div>
-            <label style="display: inline;" for="teamHeightInput">Robot Height (inches) </label>
+            <label style="display: inline; text-align: center;" for="teamHeightInput">Robot Height </label>
             <input type="text" id="teamHeightInput" name="teamHeightInput" class="form-control-sm" placeholder="120">
             <div>&nbsp;</div>
-            <label style="display: inline;" for="teamLengthInput">Robot Length (inches) </label>
+            <label style="display: inline; text-align: center;" for="teamLengthInput">Robot Length</label>
             <input type="text" id="teamLengthInput" name="teamLengthInput" class="form-control-sm" placeholder="24">
             <div>&nbsp;</div>
-            <label style="display: inline;" for="teamWidthInput">Robot Width (inches) </label>
+            <label style="display: inline; text-align: center;" for="teamWidthInput">Robot Width</label>
             <input type="text" id="teamWidthInput" name="teamWidthInput" class="form-control-sm" placeholder="24">
             <div>&nbsp;</div>
         </div>
@@ -120,6 +117,7 @@
 
             <!--Save Team Button-->
             <button value="submit" type="submit" class="btn btn-success" id="saveTeamBtn">Save Team</button>
+            <div>&nbsp;</div>
         </div>
       </div>
 </form>

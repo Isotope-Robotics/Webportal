@@ -200,7 +200,9 @@ function pullTeams(){
     });
 }
 
+function createUserTable(){
+
+}
 
 
-
-module.exports = {createMatchTable, insertMatchData, insertTeamData, createNewEventDatabase, createEventTable, createEventTeamsTable, createTeamInfoTable, insertTeam, createAllTables, pullTeams, insertEventData, teams, conn};
+module.exports = {createUserTable, createMatchTable, insertMatchData, insertTeamData, createNewEventDatabase, createEventTable, createEventTeamsTable, createTeamInfoTable, insertTeam, createAllTables, pullTeams, insertEventData, teams, conn};

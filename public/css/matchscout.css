@@ -2,8 +2,9 @@ h1 {
     text-align: center;
 }
 
-.well {
+.card {
     text-align: center;
+    align-self: center;
 }
 
 .scoring-section {

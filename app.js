@@ -3,6 +3,8 @@ const request = require("request");
 const tba = require("./tba");
 const db = require("./my-sql");
 var bodyParser = require('body-parser');
+const session = require('express-session');
+const path = require('path');
 
 const app = express();
 const httpPort = 3000;
@@ -30,19 +32,16 @@ app.use(express.static("public/css"));
 app.use(express.static("public/js"));
 app.use(express.static("public/img"));
 
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
-
-
-app.get("/login", function(req, res){
-    res.render("login");
-})
-
-app.post("/login", function(req, res){
-    res.send("Login Successful" + req.body.username)
-})
 
 //Index Page
 app.get("/", function(req, res){
@@ -172,6 +171,14 @@ app.post("/admin", function(req, res, next){
     tba.getTeamsByEvent(eventKey);
 
     res.redirect('/admin');
+})
+
+app.get("/login", function(req, res){
+    res.render("login");
+})
+
+app.post("/login", function(req, res){
+   res.redirect("/")
 })
 
 //404 Page Error
