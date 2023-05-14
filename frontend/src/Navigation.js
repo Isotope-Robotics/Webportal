@@ -12,9 +12,9 @@ function Navigation() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/Login">Login</Nav.Link>
                         <Nav.Link href="/Pit">Pit</Nav.Link>
                         <Nav.Link href="/Match">Match</Nav.Link>
+                        <Nav.Link href="/Login">Login</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

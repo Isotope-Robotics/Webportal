@@ -1,23 +1,34 @@
-import React from 'react';
+import React, {useState} from 'react';
+import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import './Login.css';
-import Navigation from './Navigation';
 
 function Login() {
+
+  const [values, setValues] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post('http://localhost:8081/login', values)
+    .then(res => console.log(res))
+    .then(err => console.error(err))
+  }
+
   return (
-    <>
-    <Navigation/>
     <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
     <div className='bg-white p-3 rounded signin-custom'>
       <h2>Log In</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='mb-3'>
           <label htmlFor='email'><strong>Email:</strong></label>
-          <input type='email' placeholder='Enter Email' name='email' className='form-control rounded-0'></input>
+          <input type='email' placeholder='Enter Email' name='email' className='form-control rounded-0' onChange={(e) => setValues({ ...values, name: e.target.value })}></input>
         </div>
         <div className='mb-3'>
           <label htmlFor='password'><strong>Password:</strong></label>
-          <input type='password' placeholder='Enter Password' name='password' className='form-control rounded-0'></input>
+          <input type='password' placeholder='Enter Password' name='password' className='form-control rounded-0' onChange={(e) => setValues({ ...values, name: e.target.value })}></input>
         </div>
         <div className='mb-3'>
           <button type='submit' className='btn btn-success w-100 rounded-0'>Log In</button>
@@ -29,7 +40,6 @@ function Login() {
       </form>
     </div>
   </div>
-  </>
   )
 }
 

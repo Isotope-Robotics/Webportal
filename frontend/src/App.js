@@ -8,6 +8,7 @@ import Navigation from './Navigation';
 function App() {
   return (
    <BrowserRouter>
+   <Navigation/>
     <Routes>
       <Route path='/' element={<Home/>}></Route>
       <Route path='/home' element={<Home/>}></Route>

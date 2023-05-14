@@ -4,8 +4,7 @@ import logo from "./react-logo.png";
 import Navigation from './Navigation';
 
 function Home() {
-  return (<>
-    <Navigation/>
+  return (
       <div className="container">
         <div className="Welcome">
           <h1>Welcome to the Convergence Web Scouting Portal</h1>
@@ -21,7 +20,7 @@ function Home() {
           <p>Built With</p>
           <img src={logo} alt='React-Logo' width={'1300%'} height={'auto'} className='image-react' />
         </div>
-      </div></>
+      </div>
   )
 }
 

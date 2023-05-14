@@ -1,33 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from 'react-bootstrap/Alert';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './Register.css';
 
-function register() {
+function Register() {
+
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+    signInCode: ''
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios.post('http://localhost:8081/register', values)
+    .then(res => console.log(res))
+    .then(err => console.error(err))
+  }
 
   return (
     <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
       <div className='bg-white p-3 rounded signin-custom'>
         <h2>Sign Up</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='name'><strong>Name:</strong></label>
-            <input type='text' placeholder='Enter Name' name='name' className='form-control rounded-0' required='true'></input>
+            <input type='text' placeholder='Enter Name' name='name' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, name: e.target.value })}></input>
           </div>
           <div className='mb-3'>
             <label htmlFor='email'><strong>Email:</strong></label>
-            <input type='email' placeholder='Enter Email' name='email' className='form-control rounded-0' required='true'></input>
+            <input type='email' placeholder='Enter Email' name='email' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, email: e.target.value })}></input>
           </div>
           <div className='mb-3'>
             <label htmlFor='password'><strong>Password:</strong></label>
-            <input type='password' placeholder='Enter Password' name='password' className='form-control rounded-0' required='true'></input>
+            <input type='password' placeholder='Enter Password' name='password' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, password: e.target.value })}></input>
           </div>
           <div className='mb-3'>
             <label htmlFor='yearCode'><strong>Sign Up Code:</strong></label>
-            <input type='text' placeholder='Enter Code' name='yearCode' className='form-control rounded-0' required='true'></input>
+            <input type='text' placeholder='Enter Code' name='yearCode' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, signInCode: e.target.value })}></input>
           </div>
           <div className='mb-3'>
-            <Alert key='warning' variant='warning' style={{textAlign: 'center'}}>If you do not have a Sign Up Code please contact Ethen Brandenburg or Paul Lathrop</Alert>
+            <Alert key='warning' variant='warning' style={{ textAlign: 'center' }}>If you do not have a Sign Up Code please contact Ethen Brandenburg or Paul Lathrop</Alert>
           </div>
           <div className='mb-3'>
             <button type='submit' className='btn btn-success w-100 rounded-0'>Sign Up</button>
@@ -40,4 +55,4 @@ function register() {
   )
 }
 
-export default register
+export default Register
