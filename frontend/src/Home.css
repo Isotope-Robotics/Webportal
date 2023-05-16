@@ -9,6 +9,8 @@
     font-size: large;
 }
 
+
+
 .image-react {
 
     display: block;
@@ -37,7 +39,6 @@
     position: absolute;
     bottom: 0;
 }
-
 
 
 a:link { text-decoration: none; }

@@ -1,15 +1,20 @@
-import express from 'express';
+import express, { response } from 'express';
 import mysql from 'mysql2';
 import cors from 'cors';
-import jwt from 'jsonwebtoken';
+import jwt, { verify } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
 
 const app = express();
 const salt = 10;
 app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
+app.use(cookieParser('jwtSecretKey'));
+
+app.use(cors({
+    origin: true,
+    methods:['GET', 'POST'],
+    credentials: true,
+}));
 
 
 const db = mysql.createConnection({
@@ -19,7 +24,28 @@ const db = mysql.createConnection({
     database: "convergence-web"
 })
 
-app.post('/register', function (req, res) {
+
+
+app.get("/", function (req, res, next) {
+    var token = req.signedCookies;
+    token = token['Authorization'];
+    let name;
+
+    try {
+        const verified = jwt.verify(token, 'key');
+        console.log(`Is User Verified: ${verified.name}`);
+        name = verified.name;
+        return res.json({Status: "Success", user: name});
+    } catch(err) {
+        console.log(err);
+        console.log(`Is User Verified: False`);
+        return res.json({Status: "Fail "})
+    }
+
+    
+})
+
+app.post('/api/auth/register', function (req, res) {
     const sql = "INSERT INTO users (`name`, `email`, `password`, `signInCode`) VALUES (?)";
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
         if (err) return res.json({ Error: "Error for Hashing Password" });
@@ -37,6 +63,33 @@ app.post('/register', function (req, res) {
         })
     })
 
+})
+
+app.get('/logout', function (req, res) {
+    res.clearCookie('Authorization');
+    return res.json({ Status: "Success" });
+})
+
+app.post('/api/auth/login', function (req, res) {
+    const sql = "SELECT * FROM users WHERE email = ?";
+    db.query(sql, [req.body.email], (err, data) => {
+        if (err) return res.json({ Error: "Finding User in Server" });
+        if (data.length > 0) {
+            bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
+                if (err) return res.json({ Error: "Password Compare Error" });
+                if (response) {
+                    const name = data[0].name;
+                    const token = jwt.sign({ name }, 'key', { expiresIn: "3600s" });
+                    res.cookie("Authorization", token, { httpOnly: true,signed: true, maxAge: 24000 });
+                    return res.json({ Status: "Success" });
+                } else {
+                    return res.json({ Error: "Password Not Matched In Server" });
+                }
+            });
+        } else {
+            return res.json({ Error: "No Email In Server" });
+        }
+    })
 })
 
 app.listen(8081, () => {

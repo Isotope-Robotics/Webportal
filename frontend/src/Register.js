@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Alert from 'react-bootstrap/Alert';
 import './Register.css';
 
 function Register() {
@@ -13,11 +13,19 @@ function Register() {
     signInCode: ''
   });
 
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:8081/register', values)
-    .then(res => console.log(res))
-    .then(err => console.error(err))
+    axios.post('http://localhost:8081/api/auth/register', values)
+      .then(res => {
+        if (res.data.Status === "Success") {
+          alert("Registration is complete...redirecting you to login page");
+          navigate('/login');
+        } else {
+          alert("Error Registering New User, Try Logging In Instead");
+        }
+      })
+      .then(err => console.error(err))
   }
 
   return (
