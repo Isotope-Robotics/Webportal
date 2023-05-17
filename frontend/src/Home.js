@@ -6,7 +6,7 @@ import logo from "./react-logo.png";
 function Home() {
 
   const [auth, setAuth] = useState(false);
-
+  const [message, setMessage] = useState('');
   const [name, setName] = useState('');
 
 

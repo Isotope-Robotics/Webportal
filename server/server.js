@@ -41,8 +41,6 @@ app.get("/", function (req, res, next) {
         console.log(`Is User Verified: False`);
         return res.json({Status: "Fail "})
     }
-
-    
 })
 
 app.post('/api/auth/register', function (req, res) {
@@ -65,7 +63,7 @@ app.post('/api/auth/register', function (req, res) {
 
 })
 
-app.get('/logout', function (req, res) {
+app.get('/api/auth/logout', function (req, res) {
     res.clearCookie('Authorization');
     return res.json({ Status: "Success" });
 })

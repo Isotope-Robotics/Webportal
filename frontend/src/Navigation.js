@@ -24,7 +24,7 @@ function Navigation() {
     })
 
     const handleDelete = () => {
-        axios.get('http://localhost:8081/logout')
+        axios.get('http://localhost:8081/api/auth/logout')
             .then(res => {
                 window.location.reload(true);
             }).catch(err => console.log(err));
