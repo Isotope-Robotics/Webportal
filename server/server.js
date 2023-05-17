@@ -11,11 +11,14 @@ app.use(express.json());
 app.use(cookieParser('jwtSecretKey'));
 
 app.use(cors({
-    origin: true,
-    methods:['GET', 'POST'],
+    origin: ["http://localhost:3000", "http://convergence-scouting.cloud", "https://convergence-scouting.cloud"],
     credentials: true,
 }));
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 const db = mysql.createConnection({
     host: "localhost",

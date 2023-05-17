@@ -12,7 +12,9 @@ function Home() {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios.get('http://localhost:8081')
+    axios.get('http://localhost:8081', {
+      withCredentials: true
+    })
       .then(res => {
         if (res.data.Status === "Success") {
           setAuth(true);

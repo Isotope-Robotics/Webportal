@@ -12,7 +12,9 @@ function Navigation() {
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://localhost:8081')
+        axios.get('http://localhost:8081', {
+            withCredentials: true
+          })
             .then(res => {
                 if (res.data.Status === "Success") {
                     setAuth(true);
@@ -24,7 +26,9 @@ function Navigation() {
     })
 
     const handleDelete = () => {
-        axios.get('http://localhost:8081/api/auth/logout')
+        axios.get('http://localhost:8081/api/auth/logout', {
+            withCredentials: true
+          })
             .then(res => {
                 window.location.reload(true);
             }).catch(err => console.log(err));

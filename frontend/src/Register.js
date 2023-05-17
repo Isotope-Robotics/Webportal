@@ -13,10 +13,13 @@ function Register() {
     signInCode: ''
   });
 
+  axios.defaults.withCredentials = true;
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:8081/api/auth/register', values)
+    axios.post('http://localhost:8081/api/auth/register', values, {
+      withCredentials: true
+    })
       .then(res => {
         if (res.data.Status === "Success") {
           alert("Registration is complete...redirecting you to login page");
