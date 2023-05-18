@@ -56,19 +56,19 @@ app.get("/api/teams/list", function(req, res){
 
 //Returns if the user is authorized
 app.get("/api/token", function (req, res, next) {
-    var token = req.signedCookies;
-    token = token['Authorization'];
+    //let token = req.signedCookies;
+    //token = token['Authorization'];
+
+    let token = req.session.token;
+
     let name;
 
     try {
         const verified = jwt.verify(token, 'key');
         console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
-        
+
         return res.json({Status: "Success", user: name});
-        session=req.session;
-        session=req.session;
-        session.userid=req.body.username;
     } catch(err) {
         console.log(err);
         console.log(`Is User Verified: False`);
@@ -115,7 +115,8 @@ app.post('/api/auth/login', function (req, res) {
                 if (response) {
                     const name = data[0].name;
                     const token = jwt.sign({ name }, 'key', { expiresIn: "1d" });
-                    res.cookie("Authorization", token, { httpOnly: true,signed: true, maxAge: 24000 });
+                    //res.cookie("Authorization", token, { httpOnly: true,signed: true, maxAge: 24000 });
+                    req.session.token = token;
                     return res.json({ Status: "Success" , token});
                 } else {
                     return res.json({ Error: "Password Not Matched In Server" });

@@ -21,7 +21,6 @@ function Login() {
     
       .then(res => {
         if (res.data.Status === "Success") {
-          localStorage.setItem("token", res.data.token);
           navigate('/home');
           window.location.reload(true);
         } else {
