@@ -12,7 +12,7 @@ function Home() {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios.get('http://localhost:8081', {
+    axios.get('/api/token', {
       withCredentials: true
     })
       .then(res => {

@@ -15,7 +15,7 @@ function Login() {
   axios.defaults.withCredentials = true;
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:8081/api/auth/login', values, {
+    axios.post('/api/auth/login', values, {
       withCredentials: true
     })
     

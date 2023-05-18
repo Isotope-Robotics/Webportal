@@ -17,7 +17,7 @@ function Register() {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('http://localhost:8081/api/auth/register', values, {
+    axios.post('/api/auth/register', values, {
       withCredentials: true
     })
       .then(res => {

@@ -12,7 +12,7 @@ function Navigation() {
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.get('http://localhost:8081', {
+        axios.get('/api/token', {
             withCredentials: true
           })
             .then(res => {
@@ -26,7 +26,7 @@ function Navigation() {
     })
 
     const handleDelete = () => {
-        axios.get('http://localhost:8081/api/auth/logout', {
+        axios.get('/api/auth/logout', {
             withCredentials: true
           })
             .then(res => {

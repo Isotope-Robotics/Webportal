@@ -29,7 +29,7 @@ const db = mysql.createConnection({
 
 
 
-app.get("/", function (req, res, next) {
+app.get("/api/token", function (req, res, next) {
     var token = req.signedCookies;
     token = token['Authorization'];
     let name;
