@@ -46,6 +46,11 @@ function Navigation() {
                                 <div className='d-flex'>
                                     <Nav.Link href="/Pit">Pit</Nav.Link>
                                     <Nav.Link href="/Match">Match</Nav.Link>
+                                    <NavDropdown title="Results" id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="/team_list">Team Info</NavDropdown.Item>
+                                        <NavDropdown.Item href="/pit_scouting_list">Pit Info</NavDropdown.Item>
+                                        <NavDropdown.Item href="/match_scouting_list">Match Info</NavDropdown.Item>
+                                    </NavDropdown>
                                     <button className='btn btn-danger outline-danger' onClick={handleDelete}>Logout</button>
                                 </div>
                                 :

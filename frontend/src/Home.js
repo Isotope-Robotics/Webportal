@@ -13,7 +13,10 @@ function Home() {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios.get('/api/token', {
-      withCredentials: true
+      withCredentials: true,
+      headers: {
+        'Authorization' : localStorage.getItem('token')
+      }
     })
       .then(res => {
         if (res.data.Status === "Success") {

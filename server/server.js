@@ -4,6 +4,9 @@ import cors from 'cors';
 import jwt, { verify } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import session from 'express-session';
+import request  from "request";
 
 const app = express();
 const salt = 10;
@@ -20,6 +23,19 @@ app.use(function(req, res, next) {
     next();
   });
 
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+
+    cookie: {
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}))
+
+app.use(bodyParser.json());
+
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -27,8 +43,18 @@ const db = mysql.createConnection({
     database: "convergence-web"
 })
 
+//Returns a list of teams loaded from the DB
+app.get("/api/teams/list", function(req, res){
+    db.query('SELECT * FROM teams', function (err, result){
+        if (err){
+            console.error(err);
+        } else {
+            res.json({Status: "Success", teams: result});
+        }
+    })
+})
 
-
+//Returns if the user is authorized
 app.get("/api/token", function (req, res, next) {
     var token = req.signedCookies;
     token = token['Authorization'];
@@ -38,7 +64,11 @@ app.get("/api/token", function (req, res, next) {
         const verified = jwt.verify(token, 'key');
         console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
+        
         return res.json({Status: "Success", user: name});
+        session=req.session;
+        session=req.session;
+        session.userid=req.body.username;
     } catch(err) {
         console.log(err);
         console.log(`Is User Verified: False`);
@@ -46,6 +76,7 @@ app.get("/api/token", function (req, res, next) {
     }
 })
 
+//Registers new users into the API
 app.post('/api/auth/register', function (req, res) {
     const sql = "INSERT INTO users (`name`, `email`, `password`, `signInCode`) VALUES (?)";
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
@@ -66,11 +97,14 @@ app.post('/api/auth/register', function (req, res) {
 
 })
 
+//Handles logout function of the API
 app.get('/api/auth/logout', function (req, res) {
+    req.session.destroy();
     res.clearCookie('Authorization');
     return res.json({ Status: "Success" });
 })
 
+//Handles login form form the API
 app.post('/api/auth/login', function (req, res) {
     const sql = "SELECT * FROM users WHERE email = ?";
     db.query(sql, [req.body.email], (err, data) => {
@@ -80,9 +114,9 @@ app.post('/api/auth/login', function (req, res) {
                 if (err) return res.json({ Error: "Password Compare Error" });
                 if (response) {
                     const name = data[0].name;
-                    const token = jwt.sign({ name }, 'key', { expiresIn: "3600s" });
+                    const token = jwt.sign({ name }, 'key', { expiresIn: "1d" });
                     res.cookie("Authorization", token, { httpOnly: true,signed: true, maxAge: 24000 });
-                    return res.json({ Status: "Success" });
+                    return res.json({ Status: "Success" , token});
                 } else {
                     return res.json({ Error: "Password Not Matched In Server" });
                 }
@@ -93,6 +127,8 @@ app.post('/api/auth/login', function (req, res) {
     })
 })
 
+
+//Starts the API Server
 app.listen(8081, () => {
     console.log("API Server Running on port: 8081")
 })
