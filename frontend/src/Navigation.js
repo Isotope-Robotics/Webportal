@@ -35,15 +35,15 @@ function Navigation() {
     }
 
     return (
-        <Navbar className='bg-custom' variant='dark' expand="lg">
+        <Navbar className='bg-custom' variant='dark' expand="sm" collapseOnSelect>
             <Container>
                 <Navbar.Brand href="/">Convergence Robotics</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav>
                         {
                             auth ?
-                                <div className='d-flex'>
+                                <>
                                     <Nav.Link href="/Pit">Pit</Nav.Link>
                                     <Nav.Link href="/Match">Match</Nav.Link>
                                     <NavDropdown title="Results" id="basic-nav-dropdown">
@@ -52,9 +52,9 @@ function Navigation() {
                                         <NavDropdown.Item href="/match_scouting_list">Match Info</NavDropdown.Item>
                                     </NavDropdown>
                                     <button className='btn btn-danger outline-danger' onClick={handleDelete}>Logout</button>
-                                </div>
+                                </>
                                 :
-                                <div className='d-flex'>
+                                <>
                                     <Nav.Link href="/">Home</Nav.Link>
                                     <Nav.Link href='/About'>About</Nav.Link>
                                     <NavDropdown title="FIRST" id="basic-nav-dropdown">
@@ -63,7 +63,7 @@ function Navigation() {
                                         <NavDropdown.Item href="/FRC">FRC</NavDropdown.Item>
                                     </NavDropdown>
                                     <Nav.Link href='/Login'>Login</Nav.Link>
-                                </div>
+                                </>
 
                         }
 

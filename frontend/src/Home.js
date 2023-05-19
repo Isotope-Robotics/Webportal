@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import './Home.css';
 import logo from "./react-logo.png";
+import Footer from './Footer';
 
 function Home() {
 
@@ -60,6 +61,8 @@ function Home() {
         <p>Built With</p>
         <img src={logo} alt='React-Logo' width={'1300%'} height={'auto'} className='image-react' />
       </div>
+
+      <Footer/>
     </div>
   )
 }
