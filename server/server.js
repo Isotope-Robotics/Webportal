@@ -43,6 +43,10 @@ const db = mysql.createConnection({
     database: "convergence-web"
 })
 
+var tbaId = "jINO6qdzc4xGIZKGxGl6FzY1PzOT29IuOrm0jHoWH21ZHWS6OOjYXhOjl2PI8i2Y";
+var baseURL = "https://www.thebluealliance.com/api/v3";
+
+
 //Returns a list of teams loaded from the DB
 app.get("/api/teams/list", function(req, res){
     db.query('SELECT * FROM teams', function (err, result){
@@ -128,8 +132,72 @@ app.post('/api/auth/login', function (req, res) {
     })
 })
 
+//Returns event lists for a set year
+app.get('/api/find/events', function(req, res){
+    const year = req.params.id;
+    const sql = "SELECT * FROM events";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Error: "Cannot Find Events In Database From That Year"});
+        if (data){
+            return res.json({Status: "Success", data});
+        }
+    })
+
+})
+
+//Adds a new event to the database after pulling info from TBA
+app.post('/api/events/add', function(req, res){
+    const event_key = req.body.event_key;
+    return res.json({Status: "Success"});
+})
+
+app.post('/api/event/set:id', function(req, res){
+    const event_id = req.params.id;
+    return res.json({Status: "Success", event_id});
+})
+
+//Retrieves TBA info for specified event and loads it into the database (Teams Lists)
+app.get('/api/tba/get/event:id', function(req, res){
+    const event_id = req.params.id;
+
+})
 
 //Starts the API Server
 app.listen(8081, () => {
     console.log("API Server Running on port: 8081")
 })
+
+
+//Pulls teams and puts them in database
+function getTeamsByEvent(eventKey) {
+    url = baseURL + '/event/' + eventKey + '/teams';
+  
+    request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
+      if (error) {
+        console.log("Error getting team info from TBA");
+      } else {
+        //Parse returned body to JSON object
+        data = JSON.parse(body);
+  
+        //loop through JSON object to get each team number
+        for (team of data) {
+          insertTeam(`${team.team_number}`, `${team.nickname}`, `${team.rookie_year}`, eventKey);
+          console.log("Inserted teams into Database");
+        };
+  
+      }
+  
+    });
+}
+
+//Inserts teams into EventTeams Database
+function insertTeam(team, nickname, rookie_year, eventKey){
+    team_sql = `INSERT INTO ${eventKey}(Number, Nickname, Rookie) VALUES (?,?,?)`;
+    conn.query(team_sql, [team, nickname, rookie_year], function(err){
+        if (err){
+            console.error(err);
+        } else{
+            console.log("Inserted team info");
+        }
+    });
+}

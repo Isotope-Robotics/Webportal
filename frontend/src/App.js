@@ -5,6 +5,7 @@ import Home from './Home';
 import Login from './Login';
 import Navigation from './Navigation';
 import Pit from './Pit';
+import Match from './Match';
 import TeamList from './TeamList';
 import PitList from './PitList';
 import MatchList from './MatchList';
@@ -30,6 +31,7 @@ function App() {
       <Route path='/FTC' element={<FTC/>}></Route>
       <Route path='/FLL' element={<FLL/>}></Route>
       <Route path='/Pit' element={<Pit/>}></Route>
+      <Route path='/Match' element={<Match/>}></Route>
     </Routes>
    </BrowserRouter>
   );
