@@ -132,14 +132,14 @@ app.post('/api/auth/login', function (req, res) {
     })
 })
 
-//Returns event lists for a set year
-app.get('/api/find/events', function(req, res){
-    const year = req.params.id;
+//Returns event lists in DB
+app.get('/api/find/events/all', function(req, res){
     const sql = "SELECT * FROM events";
     db.query(sql, (err, data) => {
         if (err) return res.json({Error: "Cannot Find Events In Database From That Year"});
         if (data){
-            return res.json({Status: "Success", data});
+            console.log(data);
+            return res.json({results: data});
         }
     })
 
