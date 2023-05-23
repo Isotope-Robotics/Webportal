@@ -69,7 +69,7 @@ function Match() {
               <option value='Select Event'>Select Event</option>
               {events.map((event, index) => {
                 return (
-                  <option value={event.event_code}>{event.name}</option>
+                  <option value={event.name}>{event.name}</option>
                 )
               })}
             </select>

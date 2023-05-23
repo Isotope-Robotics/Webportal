@@ -62,17 +62,15 @@ app.get("/api/teams/list", function (req, res) {
 
 //Returns if the user is authorized
 app.get("/api/token", function (req, res, next) {
-    //let token = req.signedCookies;
-    //token = token['Authorization'];
-
     let token = req.session.token;
-
     let name;
 
     try {
         const verified = jwt.verify(token, 'key');
         console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
+
+        //Add admin handling code for event publishing and user registration
 
         return res.json({ Status: "Success", user: name });
     } catch (err) {
@@ -152,8 +150,10 @@ app.post('/api/events/add', function (req, res) {
 })
 
 app.post('/api/event/match/submit', function (req, res) {
+    const currentYear = new Date().getFullYear()
     const event_code = req.headers.event_code;
-    const sql = `INSERT INTO ${event_code}(Number,
+    const sql_event = `${currentYear}` + `${event_code}`;
+    const sql = `INSERT INTO ${sql_event} (Number,
         Weight,
         Height,
         Length,
@@ -192,7 +192,6 @@ app.post('/api/event/match/submit', function (req, res) {
         }
 
     })
-
 })
 
 
