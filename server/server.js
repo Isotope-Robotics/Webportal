@@ -6,10 +6,12 @@ import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-import request  from "request";
+import request from "request";
 
 const app = express();
 const salt = 10;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser('jwtSecretKey'));
 
@@ -18,10 +20,10 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
 app.use(session({
     secret: 'secret',
@@ -48,12 +50,12 @@ var baseURL = "https://www.thebluealliance.com/api/v3";
 
 
 //Returns a list of teams loaded from the DB
-app.get("/api/teams/list", function(req, res){
-    db.query('SELECT * FROM teams', function (err, result){
-        if (err){
+app.get("/api/teams/list", function (req, res) {
+    db.query('SELECT * FROM teams', function (err, result) {
+        if (err) {
             console.error(err);
         } else {
-            res.json({Status: "Success", teams: result});
+            res.json({ Status: "Success", teams: result });
         }
     })
 })
@@ -72,11 +74,11 @@ app.get("/api/token", function (req, res, next) {
         console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
 
-        return res.json({Status: "Success", user: name});
-    } catch(err) {
+        return res.json({ Status: "Success", user: name });
+    } catch (err) {
         console.log(err);
         console.log(`Is User Verified: False`);
-        return res.json({Status: "Fail "})
+        return res.json({ Status: "Fail " })
     }
 })
 
@@ -119,9 +121,8 @@ app.post('/api/auth/login', function (req, res) {
                 if (response) {
                     const name = data[0].name;
                     const token = jwt.sign({ name }, 'key', { expiresIn: "1d" });
-                    //res.cookie("Authorization", token, { httpOnly: true,signed: true, maxAge: 24000 });
                     req.session.token = token;
-                    return res.json({ Status: "Success" , token});
+                    return res.json({ Status: "Success", token });
                 } else {
                     return res.json({ Error: "Password Not Matched In Server" });
                 }
@@ -133,34 +134,67 @@ app.post('/api/auth/login', function (req, res) {
 })
 
 //Returns event lists in DB
-app.get('/api/find/events/all', function(req, res){
+app.get('/api/find/events/all', function (req, res) {
     const sql = "SELECT * FROM events";
     db.query(sql, (err, data) => {
-        if (err) return res.json({Error: "Cannot Find Events In Database From That Year"});
-        if (data){
-            console.log(data);
-            return res.json({results: data});
+        if (err) return res.json({ Error: "Cannot Find Events In Database From That Year" });
+        if (data) {
+            return res.json({ results: data });
         }
     })
 
 })
 
 //Adds a new event to the database after pulling info from TBA
-app.post('/api/events/add', function(req, res){
+app.post('/api/events/add', function (req, res) {
     const event_key = req.body.event_key;
-    return res.json({Status: "Success"});
+    return res.json({ Status: "Success" });
 })
 
-app.post('/api/event/set:id', function(req, res){
-    const event_id = req.params.id;
-    return res.json({Status: "Success", event_id});
+app.post('/api/event/match/submit', function (req, res) {
+    const event_code = req.headers.event_code;
+    const sql = `INSERT INTO ${event_code}(Number,
+        Weight,
+        Height,
+        Length,
+        Width,
+        Drivetrain,
+        Drivetrain_Motors,
+        FreeSpeed,
+        Element_Pickup,
+        Element_Scoring,
+        Hang_Charge,
+        Start_Position,
+        Auto_Balance) VALUES (?)`;
+
+    const values = [
+        req.body.number,
+        req.body.weight,
+        req.body.height,
+        req.body.length,
+        req.body.width,
+        req.body.driveTrain,
+        req.body.motors,
+        req.body.freeSpeed,
+        req.body.elementPickup,
+        req.body.elementScoring,
+        req.body.hangChargestation,
+        req.body.startPosition,
+        req.body.autoBalance
+    ]
+
+    db.query(sql, [values], (err, result) => {
+        if (err) {
+            res.json({ Error: "Inserting data error in to Server" });
+            console.log(err);
+        } else {
+            return res.json({ Status: "Success" });
+        }
+
+    })
+
 })
 
-//Retrieves TBA info for specified event and loads it into the database (Teams Lists)
-app.get('/api/tba/get/event:id', function(req, res){
-    const event_id = req.params.id;
-
-})
 
 //Starts the API Server
 app.listen(8081, () => {
@@ -171,32 +205,32 @@ app.listen(8081, () => {
 //Pulls teams and puts them in database
 function getTeamsByEvent(eventKey) {
     url = baseURL + '/event/' + eventKey + '/teams';
-  
+
     request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
-      if (error) {
-        console.log("Error getting team info from TBA");
-      } else {
-        //Parse returned body to JSON object
-        data = JSON.parse(body);
-  
-        //loop through JSON object to get each team number
-        for (team of data) {
-          insertTeam(`${team.team_number}`, `${team.nickname}`, `${team.rookie_year}`, eventKey);
-          console.log("Inserted teams into Database");
-        };
-  
-      }
-  
+        if (error) {
+            console.log("Error getting team info from TBA");
+        } else {
+            //Parse returned body to JSON object
+            data = JSON.parse(body);
+
+            //loop through JSON object to get each team number
+            for (team of data) {
+                insertTeam(`${team.team_number}`, `${team.nickname}`, `${team.rookie_year}`, eventKey);
+                console.log("Inserted teams into Database");
+            };
+
+        }
+
     });
 }
 
 //Inserts teams into EventTeams Database
-function insertTeam(team, nickname, rookie_year, eventKey){
+function insertTeam(team, nickname, rookie_year, eventKey) {
     team_sql = `INSERT INTO ${eventKey}(Number, Nickname, Rookie) VALUES (?,?,?)`;
-    conn.query(team_sql, [team, nickname, rookie_year], function(err){
-        if (err){
+    conn.query(team_sql, [team, nickname, rookie_year], function (err) {
+        if (err) {
             console.error(err);
-        } else{
+        } else {
             console.log("Inserted team info");
         }
     });
