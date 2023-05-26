@@ -14,6 +14,7 @@ import FRC from './FRC';
 import FTC from './FTC';
 import FLL from './FLL';
 import ScoutingHome from './ScoutingHome';
+import LogHours from './LogHours';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Route path='/home' element={<Home/>}></Route>
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
+      <Route path="/LogHours" element={<LogHours/>}></Route>
       <Route path='/scouting_home' element={<ScoutingHome/>}></Route>
       <Route path='/team_list' element={<TeamList/>}></Route>
       <Route path='/pit_scouting_list' element={<PitList/>}></Route>

@@ -15,7 +15,7 @@ function Navigation() {
     useEffect(() => {
         axios.get('/api/token', {
             withCredentials: true
-          })
+        })
             .then(res => {
                 if (res.data.Status === "Success") {
                     setAuth(true);
@@ -30,7 +30,7 @@ function Navigation() {
     const handleDelete = () => {
         axios.get('/api/auth/logout', {
             withCredentials: true
-          })
+        })
             .then(res => {
                 navigate("/");
             }).catch(err => console.log(err));
@@ -46,13 +46,17 @@ function Navigation() {
                         {
                             auth ?
                                 <>
-                                    <Nav.Link href="/Pit">Pit</Nav.Link>
-                                    <Nav.Link href="/Match">Match</Nav.Link>
+                                    <NavDropdown title="Scouting" id="basic-nav-dropdown">
+                                        <NavDropdown.Item href="/Pit">Pit</NavDropdown.Item>
+                                        <NavDropdown.Item href="/Match">Match</NavDropdown.Item>
+                                    </NavDropdown>
+
                                     <NavDropdown title="Results" id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/team_list">Team Info</NavDropdown.Item>
                                         <NavDropdown.Item href="/pit_scouting_list">Pit Info</NavDropdown.Item>
                                         <NavDropdown.Item href="/match_scouting_list">Match Info</NavDropdown.Item>
                                     </NavDropdown>
+                                    <Nav.Link href="/LogHours">Log Hours</Nav.Link>
                                     <button className='btn btn-danger outline-danger' onClick={handleDelete}>Logout</button>
                                 </>
                                 :
