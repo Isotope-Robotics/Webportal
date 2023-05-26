@@ -21,7 +21,7 @@ function Login() {
     
       .then(res => {
         if (res.data.Status === "Success") {
-          navigate('/home');
+          navigate('/scouting_home');
           window.location.reload(true);
         } else {
           alert(res.data.Error);
