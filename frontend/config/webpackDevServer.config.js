@@ -42,7 +42,7 @@ module.exports = function (proxy, allowedHost) {
       'Access-Control-Allow-Headers': '*',
     },
 
-    allowedHosts: ['convergence-scouting.cloud'],
+    allowedHosts: ['convergence-scouting.cloud', 'convergence7429.com'],
     // Enable gzip compression of generated files.
     compress: true,
     static: {
