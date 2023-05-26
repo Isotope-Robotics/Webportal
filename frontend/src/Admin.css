@@ -1,0 +1,28 @@
+.header {
+    text-align: center;
+}
+
+.events {
+    justify-content: center;
+    margin-left: 25%;
+    text-align: center;
+    width: 50%; 
+    border: 2px solid red;
+    border-radius: 5px;
+    padding-bottom: 10px;
+}
+
+.users {
+    justify-content: center;
+    text-align: center;
+    margin-left: 25%;
+    width: 50%;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding-bottom: 10px;
+}
+
+.forms {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}

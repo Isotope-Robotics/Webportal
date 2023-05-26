@@ -146,7 +146,7 @@ app.get('/api/find/events/all', function (req, res) {
 
 //Adds a new event to the database after pulling info from TBA
 app.post('/api/events/add', function (req, res) {
-    const event_key = req.body.event_key;
+    const event_key = req.body.event_code;
     return res.json({ Status: "Success" });
 })
 
@@ -195,6 +195,16 @@ app.post('/api/event/match/submit', function (req, res) {
 
     })
 })
+
+//Keep-Alive Function for SQL Connections
+function pingdb() {
+    var sql_keep = `SELECT 1 + 1 AS solution`; 
+    db.conn.query(sql_keep, function (err, result) {
+      if (err) throw err;
+      console.log("Ping DB");
+    });
+  }
+  setInterval(pingdb, 3600000);
 
 
 //Starts the API Server
