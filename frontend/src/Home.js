@@ -7,7 +7,6 @@ import Footer from './Footer';
 function Home() {
 
   const [auth, setAuth] = useState(false);
-  const [message, setMessage] = useState('');
   const [name, setName] = useState('');
 
 
@@ -38,8 +37,9 @@ function Home() {
         {
           auth ?
             <div className='user'>
-              <p>Signed In As: {name}</p>
+              <p>Signed In As: {name}</p> 
             </div>
+           
             :
             <div className='user'>
               <p></p>
@@ -48,13 +48,11 @@ function Home() {
       </div>
 
       <div className="Welcome">
-        <h1>Welcome to the Convergence Web Scouting Portal</h1>
+        <h1>Welcome to the Convergence Web Site</h1>
       </div>
 
       <div className="Info">
-        <p>To start scouting click on Pit Scouting or Match Scouting but login before you do so.
-          <br />
-          To view scouting results and team lists visit the results page.</p>
+        <p>This Page is Currently Under Construction</p>
       </div>
 
       <div className="react-logo-container" >

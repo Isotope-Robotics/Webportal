@@ -8,7 +8,6 @@ import Footer from './Footer';
 function ScoutingHome() {
 
     const [auth, setAuth] = useState(false);
-    const [message, setMessage] = useState('');
     const [name, setName] = useState('');
 
 
@@ -24,6 +23,7 @@ function ScoutingHome() {
                 if (res.data.Status === "Success") {
                     setAuth(true);
                     setName(res.data.user);
+
                 } else {
                     setAuth(false);
                     setName("Not Signed In")

@@ -72,7 +72,7 @@ app.get("/api/token", function (req, res, next) {
 
         //Add admin handling code for event publishing and user registration
 
-        return res.json({ Status: "Success", user: name });
+        return res.json({ Status: "Success", user: name});
     } catch (err) {
         console.log(err);
         console.log(`Is User Verified: False`);
@@ -119,7 +119,7 @@ app.post('/api/auth/login', function (req, res) {
                 if (err) return res.json({ Error: "Password Compare Error" });
                 if (response) {
                     const name = data[0].name;
-                    const token = jwt.sign({ name }, 'key', { expiresIn: "1d" });
+                    const token = jwt.sign({name}, 'key', { expiresIn: "1d" });
                     req.session.token = token;
                     return res.json({ Status: "Success", token });
                 } else {
