@@ -149,6 +149,7 @@ app.post('/api/events/add', function (req, res) {
     return res.json({ Status: "Success" });
 })
 
+//Handles post request for match submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
 app.post('/api/event/match/submit', function (req, res) {
     const currentYear = new Date().getFullYear()
     const event_code = req.headers.event_code;

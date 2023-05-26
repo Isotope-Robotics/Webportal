@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -25,12 +26,13 @@ function Navigation() {
             .then(err => console.error(err))
     })
 
+    const navigate = useNavigate();
     const handleDelete = () => {
         axios.get('/api/auth/logout', {
             withCredentials: true
           })
             .then(res => {
-                window.location.reload(true);
+                navigate("/");
             }).catch(err => console.log(err));
     }
 
