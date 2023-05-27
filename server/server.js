@@ -144,9 +144,9 @@ app.get('/api/find/events/all', function (req, res) {
 
 })
 
-app.get('/api/event/:code', function(req, res) {
+app.get('/api/event/:code', function (req, res) {
     const event_key = req.params.event_code;
-    return req.json({Status: "Success", key: event_key});
+    return req.json({ Status: "Success", key: event_key });
 })
 
 //Adds a new event to the database after pulling info from TBA
@@ -154,26 +154,25 @@ app.post('/api/events/add', function (req, res) {
     const event_key = req.body.event_code;
     const currentYear = new Date().getFullYear();
     const checkSQL = `SELECT * FROM ${currentYear}${event_key}`;
+    const event_string = `${currentYear}` + `${event_key}`;
     //Checks if Event is Already There
     db.query(checkSQL, (err, result) => {
         if (err) {
-            const sql = `CREATE TABLE ${currentYear}${event_key} (teamNumber int, nickname varchar(255))`;
+            const sql = `CREATE TABLE ${event_string} (teamNumber int, nickname varchar(255))`;
             db.query(sql, (err, data) => {
                 if (err) {
                     console.error(err);
                 } else {
                     console.log(`Created Table For Event: ${event_key}`);
-                    return res.json({Status: "Success"});
+                    getTeamsByEvent(event_key, currentYear);
+                    getEventName(event_string);
+                    return res.json({ Status: "Success" });
                 }
             })
         } else {
-            return res.json({Status: "Failed"});
+            return res.json({ Status: "Already Created" });
         }
     })
-
-
-
-    return res.json({ Status: "Success" });
 })
 
 //Handles post request for match submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
@@ -240,8 +239,10 @@ app.listen(8081, () => {
 
 
 //Pulls teams and puts them in database
-function getTeamsByEvent(eventKey) {
-    url = baseURL + '/event/' + eventKey + '/teams';
+function getTeamsByEvent(eventKey, year) {
+    const url = baseURL + '/event/' + year + eventKey + '/teams';
+    var data;
+    var team;
 
     request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
         if (error) {
@@ -252,9 +253,10 @@ function getTeamsByEvent(eventKey) {
 
             //loop through JSON object to get each team number
             for (team of data) {
-                insertTeam(`${team.team_number}`, `${team.nickname}`, `${team.rookie_year}`, eventKey);
+                insertTeam(`${team.team_number}`, `${team.nickname}`, eventKey, year);
                 console.log("Inserted teams into Database");
             };
+
 
         }
 
@@ -262,13 +264,47 @@ function getTeamsByEvent(eventKey) {
 }
 
 //Inserts teams into EventTeams Database
-function insertTeam(team, nickname, rookie_year, eventKey) {
-    team_sql = `INSERT INTO ${eventKey}(Number, Nickname, Rookie) VALUES (?,?,?)`;
-    conn.query(team_sql, [team, nickname, rookie_year], function (err) {
+function insertTeam(team, nickname, eventKey, year) {
+    const event_string = `${year}` + `${eventKey}`;
+    var team_sql = `INSERT INTO ${event_string}(teamNumber, nickname) VALUES (?,?)`;
+    db.query(team_sql, [team, nickname], function (err) {
         if (err) {
             console.error(err);
         } else {
             console.log("Inserted team info");
         }
     });
+}
+
+function getEventName(event_code) {
+    const url = baseURL + '/event/' + event_code;
+    var data;
+    var events;
+
+    request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
+        if (error) {
+            console.log("Error getting event info from TBA");
+        } else {
+            //Parse returned body to JSON object
+            data = JSON.parse(body);
+            //console.log(data.key);
+            insertEvent(data.city, data.key);
+            //console.log("Inserted event into Database");
+
+
+
+        }
+
+    });
+}
+
+function insertEvent(city, key) {
+    const sql = `INSERT INTO events (name, event_code) VALUES (?,?)`;
+    db.query(sql, [`${city}`, `${key}`], function (err) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log("Inserted Event");
+        }
+    })
 }

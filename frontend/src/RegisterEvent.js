@@ -19,13 +19,12 @@ function RegisterEvent() {
         if (res.data.Status === "Success") {
           alert("Event Registration Is Complete");
           navigate('/scouting_home');
+        } else if (res.data.Status === "Already Created"){
+          alert("Event Already Created");
+          navigate('/scouting_home');
         } else {
-          alert("Error Registering New Event");
-          const register_form = document.getElementById("register_form");
-          register_form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            register_form.reset();
-          })
+          alert("Error Creating Event");
+          window.location.reload(true);
         }
       })
       .then(err => console.error(err))
