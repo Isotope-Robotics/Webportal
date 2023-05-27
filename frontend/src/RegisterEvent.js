@@ -21,7 +21,7 @@ function RegisterEvent() {
           navigate('/scouting_home');
         } else {
           alert("Error Registering New Event");
-          const register_form = document.getElementById("matchForm");
+          const register_form = document.getElementById("register_form");
           register_form.addEventListener('submit', (e) => {
             e.preventDefault();
             register_form.reset();
@@ -38,11 +38,16 @@ function RegisterEvent() {
         <form className='register_form' onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label><strong>TBA Event Code:</strong></label>
-            <input type="text" onChange={(e) => setValues({...values, event_code: e.target.value})}></input>
+            {" "}
+            <input type="text"style={{ textAlign: 'center' }} placeholder='vapor' onChange={(e) => setValues({...values, event_code: e.target.value})}></input>
           </div>
           <div className='mb-3'>
             <button type='submit' className='btn btn-success w-100 rounded-0'>Submit</button>
-            </div>
+          </div>
+          <Alert style={{ textAlign: 'center' }}>TBA Code Can Be Found On TheBlueAlliance.com 
+            <br/>And Searching For The Event. <br/> 
+            Example: "vapor" for VA Portsmouth Event.
+          </Alert>
         </form>
       </div>
     </div>

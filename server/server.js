@@ -72,7 +72,7 @@ app.get("/api/token", function (req, res, next) {
 
         //Add admin handling code for event publishing and user registration
 
-        return res.json({ Status: "Success", user: name});
+        return res.json({ Status: "Success", user: name });
     } catch (err) {
         console.log(err);
         console.log(`Is User Verified: False`);
@@ -119,7 +119,7 @@ app.post('/api/auth/login', function (req, res) {
                 if (err) return res.json({ Error: "Password Compare Error" });
                 if (response) {
                     const name = data[0].name;
-                    const token = jwt.sign({name}, 'key', { expiresIn: "1d" });
+                    const token = jwt.sign({ name }, 'key', { expiresIn: "1d" });
                     req.session.token = token;
                     return res.json({ Status: "Success", token });
                 } else {
@@ -144,15 +144,41 @@ app.get('/api/find/events/all', function (req, res) {
 
 })
 
+app.get('/api/event/:code', function(req, res) {
+    const event_key = req.params.event_code;
+    return req.json({Status: "Success", key: event_key});
+})
+
 //Adds a new event to the database after pulling info from TBA
 app.post('/api/events/add', function (req, res) {
     const event_key = req.body.event_code;
+    const currentYear = new Date().getFullYear();
+    const checkSQL = `SELECT * FROM ${currentYear}${event_key}`;
+    //Checks if Event is Already There
+    db.query(checkSQL, (err, result) => {
+        if (err) {
+            const sql = `CREATE TABLE ${currentYear}${event_key} (teamNumber int, nickname varchar(255))`;
+            db.query(sql, (err, data) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log(`Created Table For Event: ${event_key}`);
+                    return res.json({Status: "Success"});
+                }
+            })
+        } else {
+            return res.json({Status: "Failed"});
+        }
+    })
+
+
+
     return res.json({ Status: "Success" });
 })
 
 //Handles post request for match submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
 app.post('/api/event/match/submit', function (req, res) {
-    const currentYear = new Date().getFullYear()
+    const currentYear = new Date().getFullYear();
     const event_code = req.headers.event_code;
     const sql_event = `${currentYear}` + `${event_code}`;
     const sql = `INSERT INTO ${sql_event} (Number,
@@ -198,13 +224,13 @@ app.post('/api/event/match/submit', function (req, res) {
 
 //Keep-Alive Function for SQL Connections
 function pingdb() {
-    var sql_keep = `SELECT 1 + 1 AS solution`; 
+    var sql_keep = `SELECT 1 + 1 AS solution`;
     db.conn.query(sql_keep, function (err, result) {
-      if (err) throw err;
-      console.log("Ping DB");
+        if (err) throw err;
+        console.log("Ping DB");
     });
-  }
-  setInterval(pingdb, 3600000);
+}
+setInterval(pingdb, 3600000);
 
 
 //Starts the API Server
