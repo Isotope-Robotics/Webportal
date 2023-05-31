@@ -144,6 +144,26 @@ app.get('/api/find/events/all', function (req, res) {
 
 })
 
+app.post('/api/event/teams', function(req, res){
+    const event_name = req.headers.event_code;
+    var code = "";
+    const sql = 'SELECT * FROM events WHERE name=?';
+    db.query(sql, [event_name], (err, result) => {
+        if (err) return console.log(err);
+        else {
+            code = result[0].event_code;
+            const team_sql = `SELECT * FROM ${code}`;
+            db.query(team_sql, (err, result)=> {
+                if (err) return res.json({Error: err});
+                else {
+                    return res.json({Status: "Success", data: result});
+                }
+            })
+        }
+    })
+})
+
+
 app.get('/api/event/:code', function (req, res) {
     const event_key = req.params.event_code;
     return req.json({ Status: "Success", key: event_key });
@@ -225,7 +245,7 @@ app.post('/api/event/pit/submit', function (req, res) {
                 Element_Scoring varchar(255),
                 Hang_Charge varchar(255),
                 Start_Position varchar(255),
-                Auto_Balance varchar(255))`
+                Auto_Balance varchar(255))`;
 
                 db.query(table_sql, (err, result) => {
                     if (err) return res.json({Error: err});
