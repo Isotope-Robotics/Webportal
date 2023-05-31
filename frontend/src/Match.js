@@ -61,6 +61,7 @@ function Match() {
     <>
       <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
         <div className='bg-white p-3 rounded signin-custom'>
+          <h2>Match Scouting:</h2>
           <div className='mb-3'>
             <p>Now Scouting For Event: {selectEvent}</p>
             <label className='label-selectEvent' htmlFor='select-event'><strong>Select Event: </strong></label>

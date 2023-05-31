@@ -175,8 +175,8 @@ app.post('/api/events/add', function (req, res) {
     })
 })
 
-//Handles post request for match submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
-app.post('/api/event/match/submit', function (req, res) {
+//Handles post request for pit submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
+app.post('/api/event/pit/submit', function (req, res) {
     const currentYear = new Date().getFullYear();
     const event_code = req.headers.event_code;
     const sql_event = `${currentYear}` + `${event_code}`;
@@ -242,10 +242,15 @@ app.post('/api/event/match/submit', function (req, res) {
     })
 })
 
+app.post('/api/event/match/submit', function(req, res) {
+    console.log(req.body);
+    return res.json({Status: "Success"});
+})
+
 //Keep-Alive Function for SQL Connections
 function pingdb() {
     var sql_keep = `SELECT 1 + 1 AS solution`;
-    db.conn.query(sql_keep, function (err, result) {
+    db.query(sql_keep, function (err, result) {
         if (err) throw err;
         console.log("Ping DB");
     });

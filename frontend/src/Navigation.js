@@ -39,13 +39,14 @@ function Navigation() {
     return (
         <Navbar className='bg-custom' variant='dark' expand="sm" collapseOnSelect>
             <Container>
-                <Navbar.Brand href="/">Convergence Robotics</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Brand href="/">Convergence Robotics</Navbar.Brand>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav>
                         {
                             auth ?
                                 <>
+                                    <Nav.Link href="/student_home">Home</Nav.Link>
                                     <NavDropdown title="Scouting" id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/Pit">Pit</NavDropdown.Item>
                                         <NavDropdown.Item href="/Match">Match</NavDropdown.Item>

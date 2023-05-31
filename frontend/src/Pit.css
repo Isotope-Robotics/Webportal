@@ -1,3 +1,25 @@
+h2{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+}
+
+.bg-custom{
+    background-color: #1fd1f9;
+    background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+}
+
+.label-selectEvent{
+    padding-right: 10px;
+}
+
+.select-event {
+    padding-left: 10px;
+}
+
+
 @media screen and (max-width:960px) {
 
     .form-custom {
@@ -15,4 +37,8 @@
         min-height: fit-content;
     }
 
+    .signin-custom {
+        width: 75vw;
+    }
+    
 }

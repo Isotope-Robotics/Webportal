@@ -21,7 +21,7 @@ function Login() {
     
       .then(res => {
         if (res.data.Status === "Success") {
-          navigate('/scouting_home');
+          navigate('/student_home');
           window.location.reload(true);
         } else {
           alert(res.data.Error);
@@ -30,8 +30,6 @@ function Login() {
       })
       .then(err => console.error(err))
   }
-
-
 
   return (
     <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
