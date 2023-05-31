@@ -212,8 +212,29 @@ app.post('/api/event/match/submit', function (req, res) {
 
     db.query(sql, [values], (err, result) => {
         if (err) {
-            res.json({ Error: "Inserting data error in to Server" });
-            console.log(err);
+            //Create the table
+            var table_sql = `CREATE TABLE ${sql_event} (Number varchar(255),
+                Weight varchar(255),
+                Height varchar(255),
+                Length varchar(255),
+                Width varchar(255),
+                Drivetrain varchar(255),
+                Drivetrain_Motors varchar(255),
+                FreeSpeed varchar(255),
+                Element_Pickup varchar(255),
+                Element_Scoring varchar(255),
+                Hang_Charge varchar(255),
+                Start_Position varchar(255),
+                Auto_Balance varchar(255))`
+
+                db.query(table_sql, (err, result) => {
+                    if (err) return res.json({Error: err});
+                    else {
+                        //Submit the values again after table creation
+                        db.query(sql, [values]);
+                        return res.json({Status: "Success"});
+                    }
+                })
         } else {
             return res.json({ Status: "Success" });
         }
