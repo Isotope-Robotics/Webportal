@@ -6,7 +6,8 @@ import './TeamList.css';
 
 function TeamList() {
 
-    const [teams, setTeams] = useState([{ 'number': '', 'nickname': '' }]);
+    const [teams, setTeams] = useState([]);
+    const [gotTeam, setGotTeam] = useState(false);
     const [name, setName] = useState('');
     const [auth, setAuth] = useState(false);
     const [events, setEvents] = useState([]);
@@ -40,15 +41,13 @@ function TeamList() {
         setSelectedEvent(e.target.value);
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('/api/event/teams', selectEvent, { headers: { event_code: selectEvent } })
             .then(res => {
-                if (res.data.Status === "Success") {
-                    setTeams(res.data.results);
-                } else {
-                    <alert>Can't Get Team for {selectEvent}</alert>
-                }
+                setTeams(res.data.results);
+                setGotTeam(true);
             })
     }
 
@@ -68,7 +67,6 @@ function TeamList() {
                 }
             </div>
 
-
             <div className='selectEvent' onSubmit={handleSubmit}>
                 <form className='selectForm'>
                     <label className='label-selectEvent' htmlFor='select-event'><strong>Select Event: </strong></label>
@@ -83,12 +81,44 @@ function TeamList() {
                     {" "}
                     <button type='submit' className='btn btn-success w-20 rounded-2'>Select</button>
                 </form>
+                <br />
             </div>
 
-            <>
-                <br />
-                
-            </>
+            <div className='tables'>
+                {gotTeam ?
+                    <>
+                        <h2>Teams From: {selectEvent}</h2>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Team Number:</th>
+                                    <th>Team Name:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {teams.map((importedTeams, index) => {
+                                    return (
+                                        <tr>
+                                            <td>{importedTeams.teamNumber}</td>
+                                            <td>{importedTeams.nickname}</td>
+                                        </tr>
+
+                                    )
+                                })}
+
+                            </tbody>
+                        </Table>
+                    </>
+                    :
+                    <>
+                        <p>Select Event</p>
+                    </>
+                }
+
+
+
+            </div>
         </div>
     )
 }

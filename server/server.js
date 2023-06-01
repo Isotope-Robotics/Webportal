@@ -153,10 +153,12 @@ app.post('/api/event/teams', function(req, res){
         else {
             code = result[0].event_code;
             const team_sql = `SELECT * FROM ${code}`;
-            db.query(team_sql, (err, result)=> {
-                if (err) return res.json({Error: err});
+            db.query(team_sql, (err, data)=> {
+                if (err) return console.log(err);
                 else {
-                    return res.json({Status: "Success", data: result});
+                    console.log(data);
+                    return res.json({results: data});
+            
                 }
             })
         }
