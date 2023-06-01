@@ -165,6 +165,27 @@ app.post('/api/event/teams', function(req, res){
     })
 })
 
+app.post('/api/event/scouting/pit', function(req, res){
+    const event_name = req.headers.event_code;
+    var name = "";
+    const sql = 'SELECT * FROM events WHERE name=?';
+    db.query(sql, [event_name], (err, result) => {
+        if (err) return console.log(err);
+        else {
+            name = result[0].name;
+            var new_name = removeSpaces(name);
+            var currentYear = new Date().getFullYear();
+            const pitInfo = `SELECT * FROM ${currentYear}${new_name}`;
+            db.query(pitInfo, (err, result)=> {
+                if (err) return res.json({Status: "Error"}); 
+                else {
+                    return res.json({Status: "Success", data: result})
+                }
+            })
+        }
+    })
+})
+
 
 app.get('/api/event/:code', function (req, res) {
     const event_key = req.params.event_code;
@@ -202,7 +223,9 @@ app.post('/api/event/pit/submit', function (req, res) {
     const currentYear = new Date().getFullYear();
     const event_code = req.headers.event_code;
     const sql_event = `${currentYear}` + `${event_code}`;
-    const sql = `INSERT INTO ${sql_event} (Number,
+    const new_event = removeSpaces(sql_event);
+
+    const sql = `INSERT INTO ${new_event} (Number,
         Weight,
         Height,
         Length,
@@ -234,8 +257,9 @@ app.post('/api/event/pit/submit', function (req, res) {
 
     db.query(sql, [values], (err, result) => {
         if (err) {
+            
             //Create the table
-            var table_sql = `CREATE TABLE ${sql_event} (Number varchar(255),
+            var table_sql = `CREATE TABLE ${new_event} (Number varchar(255),
                 Weight varchar(255),
                 Height varchar(255),
                 Length varchar(255),
@@ -355,4 +379,9 @@ function insertEvent(city, key) {
             console.log("Inserted Event");
         }
     })
+}
+
+function removeSpaces(spacesString){
+    var removedSpaces = spacesString.split(" ").join("");
+    return removedSpaces;
 }

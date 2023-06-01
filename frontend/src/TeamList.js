@@ -96,17 +96,14 @@ function TeamList() {
                                 </tr>
                             </thead>
                             <tbody>
-
                                 {teams.map((importedTeams, index) => {
                                     return (
                                         <tr>
                                             <td>{importedTeams.teamNumber}</td>
                                             <td>{importedTeams.nickname}</td>
                                         </tr>
-
                                     )
                                 })}
-
                             </tbody>
                         </Table>
                     </>
@@ -115,9 +112,6 @@ function TeamList() {
                         <p>Select Event</p>
                     </>
                 }
-
-
-
             </div>
         </div>
     )
