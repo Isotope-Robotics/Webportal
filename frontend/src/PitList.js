@@ -43,8 +43,12 @@ function PitList() {
         e.preventDefault();
         axios.post('/api/event/scouting/pit', selectEvent, { headers: { event_code: selectEvent } })
             .then(res => {
-                setInfo(res.data.data);
-                setGotInfo(true);
+                if (res.data.Status === "Success") {
+                    setInfo(res.data.data);
+                    setGotInfo(true);
+                } else {
+                    setGotInfo(false);
+                }
             })
     }
 
