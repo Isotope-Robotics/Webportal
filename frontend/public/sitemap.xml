@@ -8,4 +8,29 @@
         <changefreq>always</changefreq>
         <priority>0.5</priority>
     </url>
+
+    <url>
+        <loc>https://convergence7429.com/About</loc>
+        <changefreq>always</changefreq>
+    </url>
+
+    <url>
+        <loc>https://convergence7429.com/FLL</loc>
+        <changefreq>always</changefreq>
+    </url>
+
+    <url>
+        <loc>https://convergence7429.com/FTC</loc>
+        <changefreq>always</changefreq>
+    </url>
+
+    <url>
+        <loc>https://convergence7429.com/FRC</loc>
+        <changefreq>always</changefreq>
+    </url>
+
+    <url>
+        <loc>https://convergence7429.com/Login</loc>
+        <changefreq>always</changefreq>
+    </url>
 </urlset>
