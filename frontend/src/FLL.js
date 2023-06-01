@@ -6,7 +6,7 @@ function FLL() {
     <div>FLL
 
 
-      <Footer />
+   
     </div>
   )
 }

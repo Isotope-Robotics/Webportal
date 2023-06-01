@@ -23,10 +23,7 @@ function About() {
           we value a student driven team. Kids are always involved in important decision making and encouraged to learn through experience.
         </p>
       </div>
-
-      
-      <Footer />
-
+      <Footer/>
     </div>
   )
 }

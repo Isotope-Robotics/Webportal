@@ -6,7 +6,7 @@ function FRC() {
     <div>FRC
 
 
-      <Footer />
+   
     </div>
   )
 }

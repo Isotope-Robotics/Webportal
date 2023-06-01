@@ -5,7 +5,7 @@ function FTC() {
   return (
     <div>FTC
 
-      <Footer />
+  
     </div>
   )
 }

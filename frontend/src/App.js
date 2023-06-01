@@ -17,6 +17,7 @@ import ScoutingHome from './ScoutingHome';
 import LogHours from './LogHours';
 import Admin from './Admin';
 import RegisterEvent from './RegisterEvent';
+import Footer from './Footer';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
       <Route path='/Match' element={<Match/>}></Route>
     </Routes>
    </BrowserRouter>
+
   );
 }
 
