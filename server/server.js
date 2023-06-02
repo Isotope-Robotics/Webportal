@@ -72,7 +72,7 @@ app.get("/api/token", function (req, res, next) {
 
         //Add admin handling code for event publishing and user registration
 
-        return res.json({ Status: "Success", user: name});
+        return res.json({ Status: "Success", user: name });
     } catch (err) {
         console.log(err);
         console.log(`Is User Verified: False`);
@@ -119,7 +119,7 @@ app.post('/api/auth/login', function (req, res) {
                 if (err) return res.json({ Error: "Password Compare Error" });
                 if (response) {
                     const name = data[0].name;
-                    const token = jwt.sign({name}, 'key', { expiresIn: "1d" });
+                    const token = jwt.sign({ name }, 'key', { expiresIn: "1d" });
                     req.session.token = token;
                     return res.json({ Status: "Success", token });
                 } else {
@@ -144,18 +144,88 @@ app.get('/api/find/events/all', function (req, res) {
 
 })
 
+app.post('/api/event/teams', function(req, res){
+    const event_name = req.headers.event_code;
+    var code = "";
+    const sql = 'SELECT * FROM events WHERE name=?';
+    db.query(sql, [event_name], (err, result) => {
+        if (err) return console.log(err);
+        else {
+            code = result[0].event_code;
+            const team_sql = `SELECT * FROM ${code}`;
+            db.query(team_sql, (err, data)=> {
+                if (err) return console.log(err);
+                else {
+                    console.log(data);
+                    return res.json({results: data});
+            
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/event/scouting/pit', function(req, res){
+    const event_name = req.headers.event_code;
+    var name = "";
+    const sql = 'SELECT * FROM events WHERE name=?';
+    db.query(sql, [event_name], (err, result) => {
+        if (err) return console.log(err);
+        else {
+            name = result[0].name;
+            var new_name = removeSpaces(name);
+            var currentYear = new Date().getFullYear();
+            const pitInfo = `SELECT * FROM ${currentYear}${new_name}`;
+            db.query(pitInfo, (err, result)=> {
+                if (err) return res.json({Status: "Error"}); 
+                else {
+                    return res.json({Status: "Success", data: result})
+                }
+            })
+        }
+    })
+})
+
+
+app.get('/api/event/:code', function (req, res) {
+    const event_key = req.params.event_code;
+    return req.json({ Status: "Success", key: event_key });
+})
+
 //Adds a new event to the database after pulling info from TBA
 app.post('/api/events/add', function (req, res) {
     const event_key = req.body.event_code;
-    return res.json({ Status: "Success" });
+    const currentYear = new Date().getFullYear();
+    const checkSQL = `SELECT * FROM ${currentYear}${event_key}`;
+    const event_string = `${currentYear}` + `${event_key}`;
+    //Checks if Event is Already There
+    db.query(checkSQL, (err, result) => {
+        if (err) {
+            const sql = `CREATE TABLE ${event_string} (teamNumber int, nickname varchar(255))`;
+            db.query(sql, (err, data) => {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log(`Created Table For Event: ${event_key}`);
+                    getTeamsByEvent(event_key, currentYear);
+                    getEventName(event_string);
+                    return res.json({ Status: "Success" });
+                }
+            })
+        } else {
+            return res.json({ Status: "Already Created" });
+        }
+    })
 })
 
-//Handles post request for match submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
-app.post('/api/event/match/submit', function (req, res) {
-    const currentYear = new Date().getFullYear()
+//Handles post request for pit submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
+app.post('/api/event/pit/submit', function (req, res) {
+    const currentYear = new Date().getFullYear();
     const event_code = req.headers.event_code;
     const sql_event = `${currentYear}` + `${event_code}`;
-    const sql = `INSERT INTO ${sql_event} (Number,
+    const new_event = removeSpaces(sql_event);
+
+    const sql = `INSERT INTO ${new_event} (Number,
         Weight,
         Height,
         Length,
@@ -187,8 +257,30 @@ app.post('/api/event/match/submit', function (req, res) {
 
     db.query(sql, [values], (err, result) => {
         if (err) {
-            res.json({ Error: "Inserting data error in to Server" });
-            console.log(err);
+            
+            //Create the table
+            var table_sql = `CREATE TABLE ${new_event} (Number varchar(255),
+                Weight varchar(255),
+                Height varchar(255),
+                Length varchar(255),
+                Width varchar(255),
+                Drivetrain varchar(255),
+                Drivetrain_Motors varchar(255),
+                FreeSpeed varchar(255),
+                Element_Pickup varchar(255),
+                Element_Scoring varchar(255),
+                Hang_Charge varchar(255),
+                Start_Position varchar(255),
+                Auto_Balance varchar(255))`;
+
+                db.query(table_sql, (err, result) => {
+                    if (err) return res.json({Error: err});
+                    else {
+                        //Submit the values again after table creation
+                        db.query(sql, [values]);
+                        return res.json({Status: "Success"});
+                    }
+                })
         } else {
             return res.json({ Status: "Success" });
         }
@@ -196,15 +288,20 @@ app.post('/api/event/match/submit', function (req, res) {
     })
 })
 
+app.post('/api/event/match/submit', function(req, res) {
+    console.log(req.body);
+    return res.json({Status: "Success"});
+})
+
 //Keep-Alive Function for SQL Connections
 function pingdb() {
-    var sql_keep = `SELECT 1 + 1 AS solution`; 
-    db.conn.query(sql_keep, function (err, result) {
-      if (err) throw err;
-      console.log("Ping DB");
+    var sql_keep = `SELECT 1 + 1 AS solution`;
+    db.query(sql_keep, function (err, result) {
+        if (err) throw err;
+        console.log("Ping DB");
     });
-  }
-  setInterval(pingdb, 3600000);
+}
+setInterval(pingdb, 3600000);
 
 
 //Starts the API Server
@@ -214,8 +311,10 @@ app.listen(8081, () => {
 
 
 //Pulls teams and puts them in database
-function getTeamsByEvent(eventKey) {
-    url = baseURL + '/event/' + eventKey + '/teams';
+function getTeamsByEvent(eventKey, year) {
+    const url = baseURL + '/event/' + year + eventKey + '/teams';
+    var data;
+    var team;
 
     request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
         if (error) {
@@ -226,9 +325,10 @@ function getTeamsByEvent(eventKey) {
 
             //loop through JSON object to get each team number
             for (team of data) {
-                insertTeam(`${team.team_number}`, `${team.nickname}`, `${team.rookie_year}`, eventKey);
+                insertTeam(`${team.team_number}`, `${team.nickname}`, eventKey, year);
                 console.log("Inserted teams into Database");
             };
+
 
         }
 
@@ -236,13 +336,52 @@ function getTeamsByEvent(eventKey) {
 }
 
 //Inserts teams into EventTeams Database
-function insertTeam(team, nickname, rookie_year, eventKey) {
-    team_sql = `INSERT INTO ${eventKey}(Number, Nickname, Rookie) VALUES (?,?,?)`;
-    conn.query(team_sql, [team, nickname, rookie_year], function (err) {
+function insertTeam(team, nickname, eventKey, year) {
+    const event_string = `${year}` + `${eventKey}`;
+    var team_sql = `INSERT INTO ${event_string}(teamNumber, nickname) VALUES (?,?)`;
+    db.query(team_sql, [team, nickname], function (err) {
         if (err) {
             console.error(err);
         } else {
             console.log("Inserted team info");
         }
     });
+}
+
+function getEventName(event_code) {
+    const url = baseURL + '/event/' + event_code;
+    var data;
+    var events;
+
+    request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
+        if (error) {
+            console.log("Error getting event info from TBA");
+        } else {
+            //Parse returned body to JSON object
+            data = JSON.parse(body);
+            //console.log(data.key);
+            insertEvent(data.city, data.key);
+            //console.log("Inserted event into Database");
+
+
+
+        }
+
+    });
+}
+
+function insertEvent(city, key) {
+    const sql = `INSERT INTO events (name, event_code) VALUES (?,?)`;
+    db.query(sql, [`${city}`, `${key}`], function (err) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log("Inserted Event");
+        }
+    })
+}
+
+function removeSpaces(spacesString){
+    var removedSpaces = spacesString.split(" ").join("");
+    return removedSpaces;
 }
