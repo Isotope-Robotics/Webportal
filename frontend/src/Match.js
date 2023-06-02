@@ -7,19 +7,20 @@ function Match() {
   const [events, setEvents] = useState([{ 'name': '', 'event_code': '' }])
   const [selectEvent, setSelectedEvent] = useState('');
   const [values, setValues] = useState({
-    number: '',
-    weight: '',
-    height: '',
-    length: '',
-    width: '',
-    driveTrain: '',
-    motors: '',
-    freeSpeed: '',
-    elementPickup: '',
-    elementScoring: '',
-    hangChargestation: '',
-    startPosition: '',
-    autoBalance: ''
+    teamNumber: '',
+    matchNumber: '',
+    placement: '',
+    mobility: '',
+    autoBalance: '',
+    coneHigh: '',
+    coneLow: '',
+    cubeScore: '',
+    autoScore: '',
+    teleBalance: '',
+    teleConeHigh: '',
+    teleConeLow: '',
+    teleCube: '',
+    teleScore: '',
   });
 
   //Populates state varibles with possible CHS events
@@ -33,7 +34,7 @@ function Match() {
     setSelectedEvent(e.target.value);
   };
 
-  function findEventName(eventCode){
+  function findEventName(eventCode) {
     return events.find((element) => {
       return element.event_code === eventCode;
     })
@@ -41,19 +42,19 @@ function Match() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('/api/event/match/submit' , values, {headers: {event_code: selectEvent}})
-    .then(res => {
-      if(res.data.Status === "Success"){
-        const match_form = document.getElementById("matchForm");
-        match_form.addEventListener('submit',(e) => {
-          e.preventDefault();
-          match_form.reset();
-        })
-      } else {
-        alert("Error Submitting Values to API");
-        window.location.reload(false);
-      }
-    })
+    axios.post('/api/event/match/submit', values, { headers: { event_code: selectEvent } })
+      .then(res => {
+        if (res.data.Status === "Success") {
+          const match_form = document.getElementById("matchForm");
+          match_form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            match_form.reset();
+          })
+        } else {
+          alert("Error Submitting Values to API");
+          window.location.reload(false);
+        }
+      })
   }
 
 
@@ -79,7 +80,7 @@ function Match() {
           <form className='matchForm' id='matchForm' onSubmit={handleSubmit}>
             <div className='mb-3'>
               <label htmlFor='team-number'><strong>Team Number:</strong></label>
-              <input type='text' placeholder='Enter Team Number' name='team-number' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values,  number: e.target.value })}></input>
+              <input type='text' placeholder='Enter Team Number' name='team-number' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, teamNumber: e.target.value })}></input>
             </div>
 
             <div className='submit'>

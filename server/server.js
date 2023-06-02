@@ -144,7 +144,7 @@ app.get('/api/find/events/all', function (req, res) {
 
 })
 
-app.post('/api/event/teams', function(req, res){
+app.post('/api/event/teams', function (req, res) {
     const event_name = req.headers.event_code;
     var code = "";
     const sql = 'SELECT * FROM events WHERE name=?';
@@ -153,19 +153,19 @@ app.post('/api/event/teams', function(req, res){
         else {
             code = result[0].event_code;
             const team_sql = `SELECT * FROM ${code}`;
-            db.query(team_sql, (err, data)=> {
+            db.query(team_sql, (err, data) => {
                 if (err) return console.log(err);
                 else {
                     console.log(data);
-                    return res.json({results: data});
-            
+                    return res.json({ results: data });
+
                 }
             })
         }
     })
 })
 
-app.post('/api/event/scouting/pit', function(req, res){
+app.post('/api/event/scouting/pit', function (req, res) {
     const event_name = req.headers.event_code;
     var name = "";
     const sql = 'SELECT * FROM events WHERE name=?';
@@ -176,10 +176,31 @@ app.post('/api/event/scouting/pit', function(req, res){
             var new_name = removeSpaces(name);
             var currentYear = new Date().getFullYear();
             const pitInfo = `SELECT * FROM ${currentYear}${new_name}`;
-            db.query(pitInfo, (err, result)=> {
-                if (err) return res.json({Status: "Error"}); 
+            db.query(pitInfo, (err, result) => {
+                if (err) return res.json({ Status: "Error" });
                 else {
-                    return res.json({Status: "Success", data: result})
+                    return res.json({ Status: "Success", data: result })
+                }
+            })
+        }
+    })
+})
+
+app.post('/api/event/scouting/match', function (req, res) {
+    const event_name = req.headers.event_code;
+    var name = "";
+    const sql = 'SELECT * FROM events WHERE name=?';
+    db.query(sql, [event_name], (err, result) => {
+        if (err) return console.log(err);
+        else {
+            name = result[0].name;
+            var new_name = removeSpaces(name);
+            var currentYear = new Date().getFullYear();
+            const matchInfo = `SELECT * FROM ${currentYear}${new_name}match`;
+            db.query(matchInfo, (err, result) => {
+                if (err) return res.json({ Status: "Error" });
+                else {
+                    return res.json({ Status: "Success", data: result })
                 }
             })
         }
@@ -257,7 +278,7 @@ app.post('/api/event/pit/submit', function (req, res) {
 
     db.query(sql, [values], (err, result) => {
         if (err) {
-            
+
             //Create the table
             var table_sql = `CREATE TABLE ${new_event} (Number varchar(255),
                 Weight varchar(255),
@@ -273,14 +294,14 @@ app.post('/api/event/pit/submit', function (req, res) {
                 Start_Position varchar(255),
                 Auto_Balance varchar(255))`;
 
-                db.query(table_sql, (err, result) => {
-                    if (err) return res.json({Error: err});
-                    else {
-                        //Submit the values again after table creation
-                        db.query(sql, [values]);
-                        return res.json({Status: "Success"});
-                    }
-                })
+            db.query(table_sql, (err, result) => {
+                if (err) return res.json({ Error: err });
+                else {
+                    //Submit the values again after table creation
+                    db.query(sql, [values]);
+                    return res.json({ Status: "Success" });
+                }
+            })
         } else {
             return res.json({ Status: "Success" });
         }
@@ -288,9 +309,78 @@ app.post('/api/event/pit/submit', function (req, res) {
     })
 })
 
-app.post('/api/event/match/submit', function(req, res) {
-    console.log(req.body);
-    return res.json({Status: "Success"});
+//Handles post request for match submitions, auto increments per year(2023Blacksburg_match, 2024Blacksburg_match)
+app.post('/api/event/match/submit', function (req, res) {
+    const currentYear = new Date().getFullYear();
+    const event_code = req.headers.event_code;
+    const sql_event = `${currentYear}` + `${event_code}`;
+    const new_event = removeSpaces(sql_event);
+
+    const sql = `INSERT INTO ${new_event}match (
+        TeamNumber,
+        MatchNum,
+        Placement,
+        Mobility,
+        AutoBalance,
+        ConeHigh,
+        ConeLow,
+        CubeScore,
+        AutoScore,
+        TeleBalance,
+        TeleConeHigh,
+        TeleConeLow,
+        TeleCube,
+        TeleScore
+    ) VALUES (?)`;
+
+    const values = [
+        req.body.teamNumber,
+        req.body.matchNumber,
+        req.body.placement,
+        req.body.mobility,
+        req.body.autoBalance,
+        req.body.coneHigh,
+        req.body.coneLow,
+        req.body.cubeScore,
+        req.body.autoScore,
+        req.body.teleBalance,
+        req.body.teleConeHigh,
+        req.body.teleConeLow,
+        req.body.teleCube,
+        req.body.teleScore
+    ]
+
+    db.query(sql, [values], (err, result) => {
+        if (err) {
+            const table_sql = `CREATE TABLE ${new_event}match (
+                TeamNumber varchar(255),
+                MatchNum varchar(255),
+                Placement varchar(255),
+                Mobility varchar(255),
+                AutoBalance varchar(255),
+                ConeHigh varchar(255),
+                ConeLow varchar(255),
+                CubeScore varchar(255),
+                AutoScore varchar(255),
+                TeleBalance varchar(255),
+                TeleConeHigh varchar(255),
+                TeleConeLow varchar(255),
+                TeleCube varchar(255),
+                TeleScore varchar(255)
+                )`;
+            db.query(table_sql, [values], (err, result) => {
+                if (err) return res.json({Status: err});
+                else {
+                    //Submit the values again after table creation
+                    db.query(sql, [values]);
+                    return res.json({ Status: "Success" });
+                }
+            })
+        } else {
+            return res.json({ Status: "Success" });
+        }
+    })
+
 })
 
 //Keep-Alive Function for SQL Connections
@@ -381,7 +471,7 @@ function insertEvent(city, key) {
     })
 }
 
-function removeSpaces(spacesString){
+function removeSpaces(spacesString) {
     var removedSpaces = spacesString.split(" ").join("");
     return removedSpaces;
 }
