@@ -1,7 +1,7 @@
 import React from 'react'
-import './About.css';
-import TeamImg from './img/frc2023-team.jpg';
 import Footer from './Footer';
+import './About.css';
+
 
 function About() {
   return (
@@ -12,7 +12,7 @@ function About() {
       </div>
 
       <div className='team-img-container'>
-        <img className='team-img' src={TeamImg} />
+        <img className='team-img' src='./img/2023/img7.jpg' />
       </div>
 
       <div className='team-info'>
@@ -23,7 +23,7 @@ function About() {
           we value a student driven team. Kids are always involved in important decision making and encouraged to learn through experience.
         </p>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }

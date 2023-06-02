@@ -18,6 +18,7 @@ import LogHours from './LogHours';
 import Admin from './Admin';
 import RegisterEvent from './RegisterEvent';
 import Footer from './Footer';
+import Gallery from './Gallery';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
       <Route path='/FLL' element={<FLL/>}></Route>
       <Route path='/Pit' element={<Pit/>}></Route>
       <Route path='/Match' element={<Match/>}></Route>
+      <Route path='/Gallery' element={<Gallery/>}></Route>
     </Routes>
    </BrowserRouter>
 

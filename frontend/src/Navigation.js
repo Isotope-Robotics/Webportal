@@ -65,6 +65,7 @@ function Navigation() {
                                 <>
                                     <Nav.Link href="/">Home</Nav.Link>
                                     <Nav.Link href='/About'>About</Nav.Link>
+                                    <Nav.Link href='/Gallery'>Gallery</Nav.Link>
                                     <NavDropdown title="FIRST" id="basic-nav-dropdown">
                                         <NavDropdown.Item href="/FLL">FLL</NavDropdown.Item>
                                         <NavDropdown.Item href="/FTC">FTC</NavDropdown.Item>
