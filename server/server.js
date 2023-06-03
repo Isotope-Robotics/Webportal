@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import request from "request";
+import 'dotenv/config'
 
 const app = express();
 const salt = 10;
@@ -39,10 +40,10 @@ app.use(session({
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "convergence",
-    database: "convergence-web"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_DATABASE
 })
 
 var tbaId = "jINO6qdzc4xGIZKGxGl6FzY1PzOT29IuOrm0jHoWH21ZHWS6OOjYXhOjl2PI8i2Y";
@@ -66,7 +67,7 @@ app.get("/api/token", function (req, res, next) {
     let name;
 
     try {
-        const verified = jwt.verify(token, 'key');
+        const verified = jwt.verify(token, process.env.PASS_KEY);
         console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
 
@@ -119,7 +120,7 @@ app.post('/api/auth/login', function (req, res) {
                 if (err) return res.json({ Error: "Password Compare Error" });
                 if (response) {
                     const name = data[0].name;
-                    const token = jwt.sign({ name }, 'key', { expiresIn: "1d" });
+                    const token = jwt.sign({ name }, process.env.PASS_KEY, { expiresIn: "1d" });
                     req.session.token = token;
                     return res.json({ Status: "Success", token });
                 } else {
