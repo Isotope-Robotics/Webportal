@@ -72,6 +72,7 @@ function PitList() {
                 <form className='selectForm'>
                     <label className='label-selectEvent' htmlFor='select-event'><strong>Select Event: </strong></label>
                     <select className='select-event' onChange={handleChange}>
+                        <option value=''>Select Event</option>
                         {events.map((event, index) => {
                             return (
                                 <option value={event.name}>{event.name}</option>
