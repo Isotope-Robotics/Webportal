@@ -70,6 +70,8 @@ app.get("/api/token", function (req, res, next) {
         const verified = jwt.verify(token, process.env.PASS_KEY);
         console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
+        let isAdmin = verified.isAdmin;
+        console.log(`is Users: ${isAdmin}`);
 
         //Add admin handling code for event publishing and user registration
 
@@ -81,9 +83,10 @@ app.get("/api/token", function (req, res, next) {
     }
 })
 
+
 //Registers new users into the API
 app.post('/api/auth/register', function (req, res) {
-    const sql = "INSERT INTO users (`name`, `email`, `password`, `signInCode`, `isAdmin`) VALUES (?)";
+    const sql = "INSERT INTO users (`name`, `email`, `password`, `signInCode`) VALUES (?)";
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
         if (err) return res.json({ Error: "Error for Hashing Password" });
 
@@ -92,7 +95,6 @@ app.post('/api/auth/register', function (req, res) {
             req.body.email,
             hash,
             req.body.signInCode,
-            req.body.isAdmin
         ]
 
         db.query(sql, [values], (err, result) => {
@@ -102,6 +104,7 @@ app.post('/api/auth/register', function (req, res) {
     })
 
 })
+
 
 //Handles logout function of the API
 app.get('/api/auth/logout', function (req, res) {
@@ -120,7 +123,8 @@ app.post('/api/auth/login', function (req, res) {
                 if (err) return res.json({ Error: "Password Compare Error" });
                 if (response) {
                     const name = data[0].name;
-                    const token = jwt.sign({ name }, process.env.PASS_KEY, { expiresIn: "1d" });
+                    const isAdmin = checkIsAdmin(data[0].signInCode);
+                    const token = jwt.sign({ name , isAdmin}, process.env.PASS_KEY, { expiresIn: "1d" });
                     req.session.token = token;
                     return res.json({ Status: "Success", token });
                 } else {
@@ -475,4 +479,18 @@ function insertEvent(city, key) {
 function removeSpaces(spacesString) {
     var removedSpaces = spacesString.split(" ").join("");
     return removedSpaces;
+}
+
+function checkIsAdmin(signInCode){
+    const currentYear = new Date().getFullYear();
+    let isAdmin = "false";
+    if(signInCode == `${currentYear}` + "student"){
+        isAdmin = "false";
+    } else if (signInCode == `${currentYear}admin`){
+        isAdmin = "true";
+    } else {
+        isAdmin = "false";
+    }
+
+  return isAdmin;
 }
