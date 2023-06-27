@@ -75,7 +75,7 @@ app.get("/api/token", function (req, res, next) {
 
         //Add admin handling code for event publishing and user registration
 
-        return res.json({ Status: "Success", user: name });
+        return res.json({ Status: "Success", user: name, admin: isAdmin });
     } catch (err) {
         console.log(err);
         console.log(`Is User Verified: False`);

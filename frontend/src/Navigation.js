@@ -10,6 +10,7 @@ function Navigation() {
 
     const [auth, setAuth] = useState(false);
     const [name, setName] = useState('');
+    const [isAdmin, setIsAdmin] = useState('');
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
@@ -19,8 +20,10 @@ function Navigation() {
             .then(res => {
                 if (res.data.Status === "Success") {
                     setAuth(true);
+                    setIsAdmin(res.data.admin);
                 } else {
                     setAuth(false);
+                    setIsAdmin(res.data.admin);
                 }
             })
             .then(err => console.error(err))
@@ -58,8 +61,13 @@ function Navigation() {
                                         <NavDropdown.Item href="/match_scouting_list">Match Info</NavDropdown.Item>
                                     </NavDropdown>
                                     <Nav.Link href="/LogHours">Log Hours</Nav.Link>
-                                    <Nav.Link href="/admin">Admin</Nav.Link>
-                                    <button className='btn btn-danger outline-danger' onClick={handleDelete}>Logout</button>
+                    
+                                    { isAdmin === "true" ?
+                                        <Nav.Link href="/admin">Admin</Nav.Link>
+                                        :
+                                        <p></p>
+                                    }
+                                     <button className='btn btn-danger outline-danger' onClick={handleDelete}>Logout</button>
                                 </>
                                 :
                                 <>

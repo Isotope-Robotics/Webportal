@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Table from 'react-bootstrap/Table';
+import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 import './PitList.css';
 
@@ -88,47 +88,49 @@ function PitList() {
             <div className='tables'>
                 {gotInfo ? <>
                     <h2>Info From: {selectEvent}</h2>
-                    <p>Please Note: You may have to swipe side to side to see the full table or flip your screen.</p>
-                    <Table striped bordered hover size="sm" responsive="sm">
-                        <thead>
-                            <tr>
-                                <th>Team:</th>
-                                <th>Weight:</th>
-                                <th>Height:</th>
-                                <th>Length:</th>
-                                <th>Width:</th>
-                                <th>Drivetrain:</th>
-                                <th>DT Motors:</th>
-                                <th>Free Speed:</th>
-                                <th>Pickup:</th>
-                                <th>Scoring:</th>
-                                <th>Hang:</th>
-                                <th>Start Position:</th>
-                                <th>Balance:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {info.map((pitInfo, index) => {
-                                return (
-                                    <tr>
-                                        <td>{pitInfo.Number}</td>
-                                        <td>{pitInfo.Weight}</td>
-                                        <td>{pitInfo.Height}</td>
-                                        <td>{pitInfo.Length}</td>
-                                        <td>{pitInfo.Width}</td>
-                                        <td>{pitInfo.Drivetrain}</td>
-                                        <td>{pitInfo.Drivetrain_Motors}</td>
-                                        <td>{pitInfo.FreeSpeed}</td>
-                                        <td>{pitInfo.Element_Pickup}</td>
-                                        <td>{pitInfo.Element_Scoring}</td>
-                                        <td>{pitInfo.Hang_Charge}</td>
-                                        <td>{pitInfo.Start_Position}</td>
-                                        <td>{pitInfo.Auto_Balance}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </Table>
+                    <Alert variant={'success'}>Please Note: You may have to swipe side to side to see the full table or flip your screen</Alert>
+                    <div style={{ overflowX: "auto" }}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Team:</th>
+                                    <th>Weight:</th>
+                                    <th>Height:</th>
+                                    <th>Length:</th>
+                                    <th>Width:</th>
+                                    <th>Drivetrain:</th>
+                                    <th>DT Motors:</th>
+                                    <th>Free Speed:</th>
+                                    <th>Pickup:</th>
+                                    <th>Scoring:</th>
+                                    <th>Hang:</th>
+                                    <th>Start Position:</th>
+                                    <th>Balance:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {info.map((pitInfo, index) => {
+                                    return (
+                                        <tr>
+                                            <td>{pitInfo.Number}</td>
+                                            <td>{pitInfo.Weight}</td>
+                                            <td>{pitInfo.Height}</td>
+                                            <td>{pitInfo.Length}</td>
+                                            <td>{pitInfo.Width}</td>
+                                            <td>{pitInfo.Drivetrain}</td>
+                                            <td>{pitInfo.Drivetrain_Motors}</td>
+                                            <td>{pitInfo.FreeSpeed}</td>
+                                            <td>{pitInfo.Element_Pickup}</td>
+                                            <td>{pitInfo.Element_Scoring}</td>
+                                            <td>{pitInfo.Hang_Charge}</td>
+                                            <td>{pitInfo.Start_Position}</td>
+                                            <td>{pitInfo.Auto_Balance}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </>
 
                     :

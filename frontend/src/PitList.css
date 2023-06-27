@@ -1,5 +1,18 @@
-@media screen and (max-width:960px) {
-    .table {
-        font-size: x-small;
-    }
-}
+table {
+    width: 100%;
+    border: 1px solid black;
+  }
+  
+  th, td {
+    text-align: center;
+    border: 1px solid black;
+  }
+
+  th {
+    padding: 8px;
+  }
+  td {
+    padding: 3px;
+  }
+  
+  tr:nth-child(even){background-color: #f2f2f2}
