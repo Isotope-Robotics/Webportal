@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import './Pit.css';
-import Footer from './Footer';
 
 function Pit() {
   const [events, setEvents] = useState([{ 'name': '', 'event_code': '' }])

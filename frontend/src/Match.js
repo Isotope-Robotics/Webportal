@@ -1,7 +1,6 @@
 import React, { useState, useEffect, Component } from 'react'
 import axios from 'axios';
 import './Match.css';
-import Footer from './Footer';
 
 function Match() {
   const [events, setEvents] = useState([{ 'name': '', 'event_code': '' }])
