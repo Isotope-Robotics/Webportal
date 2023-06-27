@@ -331,11 +331,11 @@ app.post('/api/event/match/submit', function (req, res) {
         ConeLow,
         CubeScore,
         AutoScore,
-        TeleBalance,
         TeleConeHigh,
         TeleConeLow,
         TeleCube,
-        TeleScore
+        TeleScore,
+        TeleBalance
     ) VALUES (?)`;
 
     const values = [
@@ -348,11 +348,11 @@ app.post('/api/event/match/submit', function (req, res) {
         req.body.coneLow,
         req.body.cubeScore,
         req.body.autoScore,
-        req.body.teleBalance,
         req.body.teleConeHigh,
         req.body.teleConeLow,
         req.body.teleCube,
-        req.body.teleScore
+        req.body.teleScore,
+        req.body.teleBalance
     ]
 
     db.query(sql, [values], (err, result) => {
@@ -367,11 +367,11 @@ app.post('/api/event/match/submit', function (req, res) {
                 ConeLow varchar(255),
                 CubeScore varchar(255),
                 AutoScore varchar(255),
-                TeleBalance varchar(255),
                 TeleConeHigh varchar(255),
                 TeleConeLow varchar(255),
                 TeleCube varchar(255),
-                TeleScore varchar(255)
+                TeleScore varchar(255),
+                TeleBalance varchar(255)
                 )`;
             db.query(table_sql, [values], (err, result) => {
                 if (err) return res.json({Status: err});

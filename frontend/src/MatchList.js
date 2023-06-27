@@ -42,7 +42,7 @@ function MatchList() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('/api/event/scouting/pit', selectEvent, { headers: { event_code: selectEvent } })
+        axios.post('/api/event/scouting/match', selectEvent, { headers: { event_code: selectEvent } })
             .then(res => {
                 if (res.data.Status === "Success") {
                     setInfo(res.data.data);
@@ -95,38 +95,40 @@ function MatchList() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Team:</th>
-                                    <th>Weight:</th>
-                                    <th>Height:</th>
-                                    <th>Length:</th>
-                                    <th>Width:</th>
-                                    <th>Drivetrain:</th>
-                                    <th>DT Motors:</th>
-                                    <th>Free Speed:</th>
-                                    <th>Pickup:</th>
-                                    <th>Scoring:</th>
-                                    <th>Hang:</th>
-                                    <th>Start Position:</th>
-                                    <th>Balance:</th>
+                                    <th>Team Number</th>
+                                    <th>Match Number</th>
+                                    <th>Auto Placement</th>
+                                    <th>Auto Mobility</th>
+                                    <th>Auto Balance</th>
+                                    <th>Auto Cone High</th>
+                                    <th>Auto Cone Low</th>
+                                    <th>Auto Cube</th>
+                                    <th>Auto Score</th>
+                                    <th>Tele Cone High</th>
+                                    <th>Tele Cone Low</th>
+                                    <th>Tele Cube</th>
+                                    <th>Tele Score</th>
+                                    <th>Endgame Balance</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {info.map((pitInfo, index) => {
+                                {info.map((matchInfo, index) => {
                                     return (
                                         <tr>
-                                            <td>{pitInfo.Number}</td>
-                                            <td>{pitInfo.Weight}</td>
-                                            <td>{pitInfo.Height}</td>
-                                            <td>{pitInfo.Length}</td>
-                                            <td>{pitInfo.Width}</td>
-                                            <td>{pitInfo.Drivetrain}</td>
-                                            <td>{pitInfo.Drivetrain_Motors}</td>
-                                            <td>{pitInfo.FreeSpeed}</td>
-                                            <td>{pitInfo.Element_Pickup}</td>
-                                            <td>{pitInfo.Element_Scoring}</td>
-                                            <td>{pitInfo.Hang_Charge}</td>
-                                            <td>{pitInfo.Start_Position}</td>
-                                            <td>{pitInfo.Auto_Balance}</td>
+                                            <td>{matchInfo.TeamNumber}</td>
+                                            <td>{matchInfo.MatchNum}</td>
+                                            <td>{matchInfo.Placement}</td>
+                                            <td>{matchInfo.Mobility}</td>
+                                            <td>{matchInfo.AutoBalance}</td>
+                                            <td>{matchInfo.ConeHigh}</td>
+                                            <td>{matchInfo.ConeLow}</td>
+                                            <td>{matchInfo.CubeScore}</td>
+                                            <td>{matchInfo.AutoScore}</td>
+                                            <td>{matchInfo.TeleConeHigh}</td>
+                                            <td>{matchInfo.TeleConeLow}</td>
+                                            <td>{matchInfo.TeleCube}</td>
+                                            <td>{matchInfo.TeleScore}</td>
+                                            <td>{matchInfo.TeleBalance}</td>
                                         </tr>
                                     )
                                 })}
