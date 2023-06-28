@@ -20,6 +20,7 @@ import RegisterEvent from './RegisterEvent';
 import Footer from './Footer';
 import Store from './Store';
 import Gallery from './Gallery';
+import EditUsers from './EditUsers';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
       <Route path='/Match' element={<Match/>}></Route>
       <Route path='/Gallery' element={<Gallery/>}></Route>
       <Route path='/Store' element={<Store/>}></Route>
+      <Route path='/edit_user' element={<EditUsers/>}></Route>
     </Routes>
    </BrowserRouter>
 

@@ -105,6 +105,20 @@ app.post('/api/auth/register', function (req, res) {
 
 })
 
+app.get('/api/auth/users', function (req, res) {
+    const sql = `SELECT * FROM users`;
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Status: "Error"});
+        if (data.length > 0) {
+            return res.json({Status: "Success", users: data});
+        }
+    })
+})
+
+app.post('/api/auth/editUser', function(req, res){
+    return res.json({Status: "Success"});
+})
+
 
 //Handles logout function of the API
 app.get('/api/auth/logout', function (req, res) {
@@ -398,6 +412,15 @@ function pingdb() {
 }
 setInterval(pingdb, 3600000);
 
+//404 GET
+app.get("*", function (req, res) {
+    return res.json({Status: "404 Resource Not Found"})
+})
+
+//404 POST
+app.post("*", function (req, res) {
+    return res.json({Status: "404 Resource Not Found"})
+})
 
 //Starts the API Server
 app.listen(8081, () => {
@@ -484,9 +507,9 @@ function removeSpaces(spacesString) {
 function checkIsAdmin(signInCode){
     const currentYear = new Date().getFullYear();
     let isAdmin = "false";
-    if(signInCode == `${currentYear}` + "student"){
+    if(signInCode == "student"){
         isAdmin = "false";
-    } else if (signInCode == `${currentYear}admin`){
+    } else if (signInCode == "admin"){
         isAdmin = "true";
     } else {
         isAdmin = "false";

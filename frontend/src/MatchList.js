@@ -71,6 +71,7 @@ function MatchList() {
             </div>
 
             <div className='selectEvent' onSubmit={handleSubmit}>
+                <h1>Match Scouting Results</h1>
                 <form className='selectForm'>
                     <label className='label-selectEvent' htmlFor='select-event'><strong>Select Event: </strong></label>
                     <select className='select-event' onChange={handleChange}>
@@ -89,7 +90,7 @@ function MatchList() {
 
             <div className='tableContainer'>
                 {gotInfo ? <>
-                    <h2>Info From: {selectEvent}</h2>
+                    <h3>Info From: {selectEvent}</h3>
                     <Alert variant={'success'}>Please Note: You may have to swipe side to side to see the full table or flip your screen</Alert>
                     <div style={{ overflowX: "auto" }}>
                         <table>
