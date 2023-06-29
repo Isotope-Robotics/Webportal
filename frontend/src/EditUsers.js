@@ -57,7 +57,12 @@ function EditUsers() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('/api/auth/editUser', selectedPermission, { headers: { student: selectedUser } })
+        const values = {
+           student: selectedUser,
+           permission: selectedPermission
+        }
+
+        axios.post('/api/auth/editUser', values)
             .then(res => {
                 if (res.data.Status === "Success") {
                     window.location.reload();

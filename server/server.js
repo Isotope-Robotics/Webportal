@@ -108,15 +108,25 @@ app.post('/api/auth/register', function (req, res) {
 app.get('/api/auth/users', function (req, res) {
     const sql = `SELECT * FROM users`;
     db.query(sql, (err, data) => {
-        if (err) return res.json({Status: "Error"});
+        if (err) return res.json({ Status: "Error" });
         if (data.length > 0) {
-            return res.json({Status: "Success", users: data});
+            return res.json({ Status: "Success", users: data });
         }
     })
 })
 
-app.post('/api/auth/editUser', function(req, res){
-    return res.json({Status: "Success"});
+app.post('/api/auth/editUser', function (req, res) {
+    const sql = `UPDATE users SET signInCode="${req.body.permission}" WHERE name="${req.body.student}" `
+    
+    db.query(sql, (err, result) => {
+        if(err) {
+            console.log(err);
+            return res.json({Status: "Error"});
+        }else {
+            return res.json({Status: "Success"});
+        }
+    })
+
 })
 
 
@@ -138,7 +148,7 @@ app.post('/api/auth/login', function (req, res) {
                 if (response) {
                     const name = data[0].name;
                     const isAdmin = checkIsAdmin(data[0].signInCode);
-                    const token = jwt.sign({ name , isAdmin}, process.env.PASS_KEY, { expiresIn: "1d" });
+                    const token = jwt.sign({ name, isAdmin }, process.env.PASS_KEY, { expiresIn: "1d" });
                     req.session.token = token;
                     return res.json({ Status: "Success", token });
                 } else {
@@ -183,6 +193,7 @@ app.post('/api/event/teams', function (req, res) {
         }
     })
 })
+
 
 app.post('/api/event/scouting/pit', function (req, res) {
     const event_name = req.headers.event_code;
@@ -388,7 +399,7 @@ app.post('/api/event/match/submit', function (req, res) {
                 TeleBalance varchar(255)
                 )`;
             db.query(table_sql, [values], (err, result) => {
-                if (err) return res.json({Status: err});
+                if (err) return res.json({ Status: err });
                 else {
                     //Submit the values again after table creation
                     db.query(sql, [values]);
@@ -414,12 +425,12 @@ setInterval(pingdb, 3600000);
 
 //404 GET
 app.get("*", function (req, res) {
-    return res.json({Status: "404 Resource Not Found"})
+    return res.json({ Status: "404 Resource Not Found" })
 })
 
 //404 POST
 app.post("*", function (req, res) {
-    return res.json({Status: "404 Resource Not Found"})
+    return res.json({ Status: "404 Resource Not Found" })
 })
 
 //Starts the API Server
@@ -504,16 +515,16 @@ function removeSpaces(spacesString) {
     return removedSpaces;
 }
 
-function checkIsAdmin(signInCode){
+function checkIsAdmin(signInCode) {
     const currentYear = new Date().getFullYear();
     let isAdmin = "false";
-    if(signInCode == "student"){
+    if (signInCode == "student") {
         isAdmin = "false";
-    } else if (signInCode == "admin"){
+    } else if (signInCode == "admin") {
         isAdmin = "true";
     } else {
         isAdmin = "false";
     }
 
-  return isAdmin;
+    return isAdmin;
 }

@@ -40,8 +40,8 @@ function Pit() {
         if (res.data.Status === "Success") {
           const pit_form = document.getElementById("pitForm");
           pit_form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            pit_form.reset();
+          e.preventDefault();
+          pit_form.reset();
           })
         } else {
           alert("Error Submitting Values to API");
