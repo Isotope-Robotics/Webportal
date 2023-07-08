@@ -35,12 +35,8 @@ function Admin() {
     navigate('/new_event');
   }
 
-  const handleDeleteEvent = () => {
-    navigate('/delete_event');
-  }
-
   const handleEditEvent = () => {
-    navigate('/edit_event');
+    navigate('/editevent');
   }
 
   const handleNewUser = () => {
@@ -86,14 +82,9 @@ function Admin() {
               <button type="submit" className='btn btn-success'>New Event</button>
             </form>
             {" "}
-            <form className="forms" onSubmit={handleDeleteEvent}>
-              <button type="submit" className='btn btn-danger'>Delete Event</button>
-            </form>
-            {" "}
             <form className="forms" onSubmit={handleEditEvent}>
-              <button type="submit" className='btn btn-info'>Edit Event</button>
+              <button type="submit" className='btn btn-danger'>Edit Event</button>
             </form>
-
           </div>
 
           <br />
@@ -103,7 +94,6 @@ function Admin() {
             <form className="forms" onSubmit={handleNewUser}>
               <button type="submit" className='btn btn-success'>New User</button>
             </form>
-            {" "}
             <form className="forms" onSubmit={handleEditUser}>
               <button type="submit" className='btn btn-danger'>Edit User</button>
             </form>
@@ -121,7 +111,9 @@ function Admin() {
             </form>
           </>
         </>
+        
       }
+      <br/>
     </>
 
   )

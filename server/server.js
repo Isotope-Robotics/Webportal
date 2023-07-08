@@ -44,7 +44,7 @@ const db = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_DATABASE,
-    port: 3222
+    //port: 3222
 })
 
 var tbaId = "jINO6qdzc4xGIZKGxGl6FzY1PzOT29IuOrm0jHoWH21ZHWS6OOjYXhOjl2PI8i2Y";
@@ -128,6 +128,18 @@ app.post('/api/auth/editUser', function (req, res) {
         }
     })
 
+})
+
+app.post('/api/events/editevent', function (req, res) {
+    const event_name = req.body.event;
+    const currentYear = new Date().getFullYear();
+    const delete_sql_pit = `DELETE FROM ${currentYear}${event_name}`;
+    const delete_sql_match = `DELETE FROM ${currentYear}${event_name}match`;
+
+    db.query(delete_sql_match);
+    db.query(delete_sql_pit);
+
+    return res.json({Status: "Success"});
 })
 
 

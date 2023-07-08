@@ -69,7 +69,7 @@ function ScoutingHome() {
                       
                             <div className='Welcome'>
                                 <p>Sorry You Have to be Logged In To See This Page</p>
-                                <button className='btn btn-success'>Return to Home</button>
+                                <button onClick={handleClick} className='btn btn-success'>Return to Home</button>
                             </div>
                        
                 }

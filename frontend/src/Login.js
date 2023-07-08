@@ -35,6 +35,7 @@ function Login() {
     <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
       <div className='bg-white p-3 rounded signin-custom'>
         <h2>Log In</h2>
+        <Alert key="warning" variant="warning" style={{ textAlign: 'center' }}>Please Login To Continue!</Alert>
         <form onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='email'><strong>Email:</strong></label>
