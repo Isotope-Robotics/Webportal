@@ -18,10 +18,10 @@ function RegisterEvent() {
       .then(res => {
         if (res.data.Status === "Success") {
           alert("Event Registration Is Complete");
-          navigate('/scouting_home');
+          navigate('/ScoutingHome');
         } else if (res.data.Status === "Already Created"){
           alert("Event Already Created");
-          navigate('/scouting_home');
+          navigate('/ScoutingHome');
         } else {
           alert("Error Creating Event");
           window.location.reload(true);
