@@ -30,6 +30,8 @@ function App() {
       <Route path='/team_list' element={<TeamList/>}></Route>
       <Route path='/pit_scouting_list' element={<PitList/>}></Route>
       <Route path='/match_scouting_list' element={<MatchList/>}></Route>
+      <Route path='/pit' element={<Pit/>}></Route>
+      <Route path='/match' element={<Match/>}></Route>
       <Route path='/edit_user' element={<EditUsers/>}></Route>
       <Route path='/ScoutingHome' element={<ScoutingHome/>}></Route>
     </Routes>

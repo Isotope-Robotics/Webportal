@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
@@ -11,6 +11,10 @@ function Login() {
     password: ''
   });
 
+  const [isAdmin, setIsAdmin] = useState('');
+  const [name, setName] = useState('');
+  const [auth, setAuth] = useState(false);
+
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
   const handleSubmit = (event) => {
@@ -21,7 +25,7 @@ function Login() {
     
       .then(res => {
         if (res.data.Status === "Success") {
-          navigate('/student_home');
+          navigate('/ScoutingHome');
           window.location.reload(true);
         } else {
           alert(res.data.Error);
@@ -30,6 +34,19 @@ function Login() {
       })
       .then(err => console.error(err))
   }
+
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    axios.get('/api/token', {
+      withCredentials: true
+    })
+      .then(res => {
+        if (res.data.Status === "Success") {
+          navigate("/ScoutingHome")
+        }
+      })
+      .then(err => console.error(err))
+  })
 
   return (
     <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
