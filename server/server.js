@@ -44,7 +44,7 @@ const db = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_DATABASE,
-    //port: 3222
+    port: process.env.DB_PORT
 })
 
 var tbaId = "jINO6qdzc4xGIZKGxGl6FzY1PzOT29IuOrm0jHoWH21ZHWS6OOjYXhOjl2PI8i2Y";
@@ -265,7 +265,7 @@ app.post('/api/events/add', function (req, res) {
     //Checks if Event is Already There
     db.query(checkSQL, (err, result) => {
         if (err) {
-            const sql = `CREATE TABLE ${event_string} (teamNumber int, nickname varchar(255))`;
+            const sql = `CREATE TABLE ${event_string} (teamNumber int, nickname  nvarchar(255))`;
             db.query(sql, (err, data) => {
                 if (err) {
                     console.error(err);
