@@ -54,7 +54,7 @@ function Match() {
 
   return (
     <>
-      <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
+      <div className='justify-content-center bg-custom align-items-center vh-100 form-custom'>
         <div className='bg-white p-3 rounded signin-custom'>
           <h2>Match Scouting:</h2>
           <div className='mb-3'>
