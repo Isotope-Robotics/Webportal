@@ -34,11 +34,7 @@ function Admin() {
     event.preventDefault();
     navigate('/new_event');
   }
-
-  const handleEditEvent = () => {
-    navigate('/editevent');
-  }
-
+  
   const handleNewUser = () => {
     navigate('/register');
   }
@@ -80,10 +76,6 @@ function Admin() {
             <h3>Event Settings</h3>
             <form className="forms" onSubmit={handleNewEvent}>
               <button type="submit" className='btn btn-success'>New Event</button>
-            </form>
-            {" "}
-            <form className="forms" onSubmit={handleEditEvent}>
-              <button type="submit" className='btn btn-danger'>Edit Event</button>
             </form>
           </div>
 

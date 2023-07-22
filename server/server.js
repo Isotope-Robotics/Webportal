@@ -118,32 +118,16 @@ app.get('/api/auth/users', function (req, res) {
 
 app.post('/api/auth/editUser', function (req, res) {
     const sql = `UPDATE users SET signInCode="${req.body.permission}" WHERE name="${req.body.student}" `
-    
+
     db.query(sql, (err, result) => {
-        if(err) {
+        if (err) {
             console.log(err);
-            return res.json({Status: "Error"});
-        }else {
-            return res.json({Status: "Success"});
+            return res.json({ Status: "Error" });
+        } else {
+            return res.json({ Status: "Success" });
         }
     })
 
-})
-
-//Edits events that are in the Database (Delete for rn)
-app.post('/api/events/editevent', function (req, res) {
-    const event_name = req.body.event;
-    const currentYear = new Date().getFullYear();
-    const delete_sql_pit = `DELETE FROM ${currentYear}${event_name}`;
-    const delete_sql_match = `DELETE FROM ${currentYear}${event_name}match`;
-
-    try {
-        db.query(delete_sql_match);
-        db.query(delete_sql_pit);
-        return res.json({Status: "Success"});
-    } catch (error) {
-        return res.json({Status: "Failure"});
-    }
 })
 
 

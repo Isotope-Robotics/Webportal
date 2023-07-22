@@ -13,7 +13,6 @@ import LogHours from './LogHours';
 import Admin from './Admin';
 import RegisterEvent from './RegisterEvent';
 import EditUsers from './EditUsers';
-import EditEvent from './EditEvent';
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/admin' element={<Admin/>}></Route>
       <Route path='/new_event' element={<RegisterEvent/>}></Route>
-      <Route path='/editevent' element={<EditEvent/>}></Route>
       <Route path="/LogHours" element={<LogHours/>}></Route>
       <Route path='/team_list' element={<TeamList/>}></Route>
       <Route path='/pit_scouting_list' element={<PitList/>}></Route>
