@@ -23,9 +23,9 @@ function Register() {
     })
       .then(res => {
         if (res.data.Status === "Success") {
-          alert("Registration is complete...redirecting you to login page");
-          navigate('/login');
-        } else {
+          alert("User Registration Complete");
+        }
+        else {
           alert("Error Registering New User, Try Logging In Instead");
         }
       })
@@ -36,7 +36,7 @@ function Register() {
     <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
       <div className='bg-white p-3 rounded signin-custom'>
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
+        <form className='registration' onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='name'><strong>Name:</strong></label>
             <input type='text' placeholder='Enter Name' name='name' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, name: e.target.value })}></input>

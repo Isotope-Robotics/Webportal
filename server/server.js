@@ -130,16 +130,20 @@ app.post('/api/auth/editUser', function (req, res) {
 
 })
 
+//Edits events that are in the Database (Delete for rn)
 app.post('/api/events/editevent', function (req, res) {
     const event_name = req.body.event;
     const currentYear = new Date().getFullYear();
     const delete_sql_pit = `DELETE FROM ${currentYear}${event_name}`;
     const delete_sql_match = `DELETE FROM ${currentYear}${event_name}match`;
 
-    db.query(delete_sql_match);
-    db.query(delete_sql_pit);
-
-    return res.json({Status: "Success"});
+    try {
+        db.query(delete_sql_match);
+        db.query(delete_sql_pit);
+        return res.json({Status: "Success"});
+    } catch (error) {
+        return res.json({Status: "Failure"});
+    }
 })
 
 
