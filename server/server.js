@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cookieParser('jwtSecretKey'));
 
 app.use(cors({
-    origin: ["http://localhost:3000", "http://convergence-scouting.cloud", "https://convergence-scouting.cloud"],
+    origin: ["http://localhost:3000", "http://team.convergence7429.com", "https://team.convergence7429.com"],
     credentials: true,
 }));
 
