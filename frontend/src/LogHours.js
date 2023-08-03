@@ -36,6 +36,7 @@ function LogHours() {
       .then(res => {
         if (res.data.Status === "Success") {
           alert("Sign Out Success");
+          navigate('/ScoutingHome');
         } else {
           alert("Sign Out Failure or You Are Already Signed Out");
           alert("Try logging in before accessing page");
