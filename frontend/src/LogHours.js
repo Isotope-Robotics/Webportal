@@ -26,30 +26,34 @@ function LogHours() {
       .then(err => console.error(err))
   }, [])
 
-  
-const navigate = useNavigate();
- 
+
+  const navigate = useNavigate();
+
 
   const submitSignOut = (event) => {
-    axios.post('/api/hours/siginout', {user: name})
-    .then(res => {
-      if (res.data.Status === "Success"){
-        alert("Sign Out Success");
-      } else {
-        alert("Sign Out Failure or You Are Already Signed Out");
-      }
-    })
-    .then(err => console.error(err))
-  }  
-
-  const submitSignIn = () => {
-
-      axios.post('/api/hours/signin', {user: name})
+    event.preventDefault();
+    axios.post('/api/hours/signout', { user: name })
       .then(res => {
-        if (res.data.Status === "Success"){
+        if (res.data.Status === "Success") {
+          alert("Sign Out Success");
+        } else {
+          alert("Sign Out Failure or You Are Already Signed Out");
+          alert("Try logging in before accessing page");
+        }
+      })
+      .then(err => console.error(err))
+  }
+
+  const submitSignIn = (event) => {
+    event.preventDefault();
+    axios.post('/api/hours/signin', { user: name })
+      .then(res => {
+        if (res.data.Status === "Success") {
           alert("Sign In Success");
+          navigate('/ScoutingHome');
         } else {
           alert("Sign In Failure or You Are Already Signed In");
+          alert("Try logging in before accessing page");
         }
       })
       .then(err => console.error(err))
@@ -62,18 +66,21 @@ const navigate = useNavigate();
         <div className='bg-white p-3 rounded signin-custom'>
           <h2><strong>Log Hours</strong></h2>
           <br></br>
+          <Alert variant='primary' style={{ textAlign: 'center' }}> 
+            Please Login Before Signing In
+          </Alert>
           <form>
             {" "}
             <div className='buttons'>
-              <button type='submit'  className='btn btn-success w-50 rounded-2' onClick={submitSignIn}>Sign In</button>
+              <button type='submit' className='btn btn-success w-50 rounded-2' onClick={submitSignIn}>Sign In</button>
               {" "}
-              <button type='submit'  className='btn btn-danger w-50 rounded-2' onClick={submitSignOut}>Sign Out</button>
-             </div>
+              <button type='submit' className='btn btn-danger w-50 rounded-2' onClick={submitSignOut}>Sign Out</button>
+            </div>
           </form>
 
           <Alert variant='primary' style={{ textAlign: 'center' }}>
             Please scan the QR Code at CTC and the Events in order to sign in and out.
-            <br/>
+            <br />
             If you need help siging in please contact: Ethen B.
           </Alert>
         </div>

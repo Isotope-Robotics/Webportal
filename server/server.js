@@ -133,7 +133,7 @@ app.post('/api/auth/editUser', function (req, res) {
 app.post('/api/hours/signin', function (req, res){
     console.log(req.body.user);
 
-    return res.json({ Status: "Success" });
+    return res.json({ Status: "Failure" });
 })
 
 app.post('/api/hours/signout', function (req, res) {
