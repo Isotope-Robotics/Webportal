@@ -130,6 +130,16 @@ app.post('/api/auth/editUser', function (req, res) {
 
 })
 
+app.post('/api/hours/signin', function (req, res){
+    console.log(req.body.user);
+
+    return res.json({ Status: "Success" });
+})
+
+app.post('/api/hours/signout', function (req, res) {
+    return res.json({ Status: "Success" });
+})
+
 
 //Handles logout function of the API
 app.get('/api/auth/logout', function (req, res) {
