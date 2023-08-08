@@ -20,7 +20,7 @@ function LogHours() {
           setName(res.data.user);
         } else {
           setAuth(false);
-          setName("No User");
+          setName("");
         }
       })
       .then(err => console.error(err))
@@ -38,8 +38,8 @@ function LogHours() {
           alert("Sign Out Success");
           navigate('/ScoutingHome');
         } else {
-          alert("Sign Out Failure or You Are Already Signed Out");
-          alert("Try logging in before accessing page");
+          alert("Looks like you are not signed in...lets redirect you");
+          navigate('/login');
         }
       })
       .then(err => console.error(err))
@@ -53,8 +53,8 @@ function LogHours() {
           alert("Sign In Success");
           navigate('/ScoutingHome');
         } else {
-          alert("Sign In Failure or You Are Already Signed In");
-          alert("Try logging in before accessing page");
+          alert("Looks like you are not signed in...lets redirect you");
+          navigate('/login');
         }
       })
       .then(err => console.error(err))
@@ -67,9 +67,6 @@ function LogHours() {
         <div className='bg-white p-3 rounded signin-custom'>
           <h2><strong>Log Hours</strong></h2>
           <br></br>
-          <Alert variant='primary' style={{ textAlign: 'center' }}> 
-            Please Login Before Signing In
-          </Alert>
           <form>
             {" "}
             <div className='buttons'>

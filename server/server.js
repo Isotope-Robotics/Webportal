@@ -50,16 +50,6 @@ const db = mysql.createConnection({
 var tbaId = "jINO6qdzc4xGIZKGxGl6FzY1PzOT29IuOrm0jHoWH21ZHWS6OOjYXhOjl2PI8i2Y";
 var baseURL = "https://www.thebluealliance.com/api/v3";
 
-/*
-
-try {
-
-}
-catch (e) {
-    
-}
-
-*/
 
 //Returns a list of teams loaded from the DB
 app.get("/api/teams/list", function (req, res) {
@@ -165,12 +155,19 @@ app.post('/api/auth/editUser', function (req, res) {
 })
 
 app.post('/api/hours/signin', function (req, res) {
-    console.log(req.body.user);
-    return res.json({ Status: "Failure" });
+    if (req.body.user == ""){
+        return res.json({ Status: "Failure" });
+    } else {
+        return res.json({ Status: "Success" });
+    }
 })
 
 app.post('/api/hours/signout', function (req, res) {
-    return res.json({ Status: "Success" });
+    if (req.body.user == ""){
+        return res.json({ Status: "Failure" });
+    } else {
+        return res.json({ Status: "Success" });
+    }
 })
 
 
