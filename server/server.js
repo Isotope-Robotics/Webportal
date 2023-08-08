@@ -154,14 +154,44 @@ app.post('/api/auth/editUser', function (req, res) {
 
 })
 
+
+//handles student clock in
 app.post('/api/hours/signin', function (req, res) {
     if (req.body.user == ""){
         return res.json({ Status: "Failure" });
     } else {
-        return res.json({ Status: "Success" });
+
+        // student name, start_time, finish_time
+        const sql = 'INSERT INTO timesheet (name, starttime, finishtime, date) VALUES (?, ?, ?, ?)';
+        const default_finish_time = '0';
+        
+        let date_obj = new Date();
+        let month = date_obj.getMonth();
+        let day = date_obj.getDate();
+        let year = date_obj.getFullYear();
+        let hour = date_obj.getHours();
+        let min = date_obj.getMinutes();
+
+        let current_time = hour + ":" + min;
+        let current_date = month + "-" + day + "-" + year;
+
+        const values = [
+            req.body.user,
+            current_time,
+            default_finish_time,
+            current_date
+        ]
+
+        db.query(sql, values, (err, data) => {
+            if (err) console.log(err);
+            else {
+                 return res.json({ Status: "Success" });
+            }
+        })
     }
 })
 
+//handles student clock out
 app.post('/api/hours/signout', function (req, res) {
     if (req.body.user == ""){
         return res.json({ Status: "Failure" });
