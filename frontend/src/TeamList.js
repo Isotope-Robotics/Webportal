@@ -71,7 +71,7 @@ function TeamList() {
                 <form className='selectForm'>
                     <label className='label-selectEvent' htmlFor='select-event'><strong>Select Event: </strong></label>
                     <select className='select-event' onChange={handleChange}>
-                        <option value='Select Event'>Select Event</option>
+                        <option value=''>Select Event</option>
                         {events.map((event, index) => {
                             return (
                                 <option value={event.name}>{event.name}</option>
@@ -79,7 +79,7 @@ function TeamList() {
                         })}
                     </select>
                     {" "}
-                    <button type='submit' className='btn btn-success w-20 rounded-2'>Select</button>
+                    <button type='submit' className='btn btn-success w-20 rounded-2 custom-btn'>Select</button>
                 </form>
                 <br />
             </div>

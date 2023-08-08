@@ -17,6 +17,12 @@ table {
   
   tr:nth-child(even){background-color: #f2f2f2}
 
-  .custom-btn {
-    margin-top: 5%;
-}
+  .edit {
+    justify-content: center;
+    text-align: center;
+    border: 3px solid black;
+  }
+
+  .btn{
+    margin-bottom: 5%;
+  }

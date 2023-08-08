@@ -11,8 +11,7 @@ function Register() {
     name: '',
     email: '',
     password: '',
-    signInCode: '',
-    isAdmin: false
+    signInCode: ''
   });
 
   axios.defaults.withCredentials = true;
@@ -24,9 +23,9 @@ function Register() {
     })
       .then(res => {
         if (res.data.Status === "Success") {
-          alert("Registration is complete...redirecting you to login page");
-          navigate('/login');
-        } else {
+          alert("User Registration Complete");
+        }
+        else {
           alert("Error Registering New User, Try Logging In Instead");
         }
       })
@@ -37,7 +36,7 @@ function Register() {
     <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
       <div className='bg-white p-3 rounded signin-custom'>
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
+        <form className='registration' onSubmit={handleSubmit}>
           <div className='mb-3'>
             <label htmlFor='name'><strong>Name:</strong></label>
             <input type='text' placeholder='Enter Name' name='name' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, name: e.target.value })}></input>
@@ -51,16 +50,8 @@ function Register() {
             <input type='password' placeholder='Enter Password' name='password' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, password: e.target.value })}></input>
           </div>
           <div className='mb-3'>
-            <label htmlFor='yearCode'><strong>Sign Up Code:</strong></label>
+            <label htmlFor='yearCode'><strong>Sign Up Code: (Code from Ethen)</strong></label>
             <input type='text' placeholder='Enter Code' name='yearCode' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, signInCode: e.target.value })}></input>
-          </div>
-          <div className='mb-3'>
-            <label><strong>Admin Select:</strong></label>
-            <br/>
-            <input type="radio" id="admin" name="admin" value="true" onChange={(e) => setValues({...values, isAdmin: true})} required="true"></input>
-            <label for="admin">Admin</label><br />
-            <input type="radio" id="notAdmin" name="admin" value="false" onChange={(e) => setValues({...values, isAdmin: false})}></input>
-            <label for="notAdmin">Not Admin</label><br />
           </div>
           <div className='mb-3'>
             <Alert key='warning' variant='warning' style={{ textAlign: 'center' }}>If you do not have a Sign Up Code please contact Ethen Brandenburg or Paul Lathrop</Alert>

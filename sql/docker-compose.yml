@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: convergence-root
+      MYSQL_DATABASE: convergence-web
+      MYSQL_USER: convergence
+      MYSQL_PASSWORD: convergence
+    ports:
+      - 3222:3306
+      - 3223:33060
