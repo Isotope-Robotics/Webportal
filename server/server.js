@@ -157,14 +157,13 @@ app.post('/api/auth/editUser', function (req, res) {
 
 //handles student clock in
 app.post('/api/hours/signin', function (req, res) {
-    if (req.body.user == ""){
+    if (req.body.user == "") {
         return res.json({ Status: "Failure" });
     } else {
-
         // student name, start_time, finish_time
         const sql = 'INSERT INTO timesheet (name, starttime, finishtime, date) VALUES (?, ?, ?, ?)';
         const default_finish_time = '0';
-        
+
         let date_obj = new Date();
         let month = date_obj.getMonth();
         let day = date_obj.getDate();
@@ -182,18 +181,22 @@ app.post('/api/hours/signin', function (req, res) {
             current_date
         ]
 
-        db.query(sql, values, (err, data) => {
-            if (err) console.log(err);
-            else {
-                 return res.json({ Status: "Success" });
-            }
-        })
+        try {
+            db.query(sql, values, (err, data) => {
+                if (err) console.log(err);
+                else {
+                    return res.json({ Status: "Success" });
+                }
+            })
+        } catch (e) {
+            console.log("ERROR");
+        }
     }
 })
 
 //handles student clock out
 app.post('/api/hours/signout', function (req, res) {
-    if (req.body.user == ""){
+    if (req.body.user == "") {
         return res.json({ Status: "Failure" });
     } else {
         return res.json({ Status: "Success" });
@@ -213,10 +216,10 @@ app.post('/api/auth/login', function (req, res) {
     const sql = "SELECT * FROM users WHERE email = ?";
     try {
         db.query(sql, [req.body.email], (err, data) => {
-            if (err) return res.json({ Error: "Finding User in Server" });
+            if (err) return res.json({ Error: "Error Finding User" });
             if (data.length > 0) {
                 bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
-                    if (err) return res.json({ Error: "Password Compare Error" });
+                    if (err) return res.json({ Error: "FATAL ERROR:Password Error!!!" });
                     if (response) {
                         const name = data[0].name;
                         const isAdmin = checkIsAdmin(data[0].signInCode);
@@ -224,11 +227,11 @@ app.post('/api/auth/login', function (req, res) {
                         req.session.token = token;
                         return res.json({ Status: "Success", token });
                     } else {
-                        return res.json({ Error: "Password Not Matched In Server" });
+                        return res.json({ Error: "Email/Password Combination Not Found" });
                     }
                 });
             } else {
-                return res.json({ Error: "No Email In Server" });
+                return res.json({ Error: "No User In Database" });
             }
         })
     } catch (e) {
