@@ -42,7 +42,7 @@ module.exports = function (proxy, allowedHost) {
       'Access-Control-Allow-Headers': '*',
     },
 
-    allowedHosts: ['team.convergence7429.com', 'convergence7429.com'],
+    allowedHosts: ['team.convergence7429.com'],
     // Enable gzip compression of generated files.
     compress: true,
     static: {

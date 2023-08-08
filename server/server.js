@@ -50,16 +50,32 @@ const db = mysql.createConnection({
 var tbaId = "jINO6qdzc4xGIZKGxGl6FzY1PzOT29IuOrm0jHoWH21ZHWS6OOjYXhOjl2PI8i2Y";
 var baseURL = "https://www.thebluealliance.com/api/v3";
 
+/*
+
+try {
+
+}
+catch (e) {
+    
+}
+
+*/
 
 //Returns a list of teams loaded from the DB
 app.get("/api/teams/list", function (req, res) {
-    db.query('SELECT * FROM teams', function (err, result) {
-        if (err) {
-            console.error(err);
-        } else {
-            res.json({ Status: "Success", teams: result });
-        }
-    })
+    try {
+        db.query('SELECT * FROM teams', function (err, result) {
+            if (err) {
+                return res.json({ Status: "Fail" });
+            } else {
+                return res.json({ Status: "Success", teams: result });
+            }
+        })
+    }
+    catch (e) {
+        return res.json({ Status: "Fail" });
+    }
+
 })
 
 //Returns if the user is authorized
@@ -69,10 +85,10 @@ app.get("/api/token", function (req, res, next) {
 
     try {
         const verified = jwt.verify(token, process.env.PASS_KEY);
-        console.log(`Is User Verified: ${verified.name}`);
+        //console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
         let isAdmin = verified.isAdmin;
-        console.log(`is Users: ${isAdmin}`);
+        //console.log(`is Users: ${isAdmin}`);
 
         //Add admin handling code for event publishing and user registration
 
@@ -98,41 +114,58 @@ app.post('/api/auth/register', function (req, res) {
             req.body.signInCode,
         ]
 
-        db.query(sql, [values], (err, result) => {
-            if (err) return res.json({ Error: "Inserting data error in to Server" });
-            return res.json({ Status: "Success" });
-        })
+        try {
+            db.query(sql, [values], (err, result) => {
+                if (err) return res.json({ Error: "Inserting data error in to Server" });
+                return res.json({ Status: "Success" });
+            })
+        }
+        catch (e) {
+            return res.json({ Status: "Fail" });
+        }
+
     })
 
 })
 
 app.get('/api/auth/users', function (req, res) {
     const sql = `SELECT * FROM users`;
-    db.query(sql, (err, data) => {
-        if (err) return res.json({ Status: "Error" });
-        if (data.length > 0) {
-            return res.json({ Status: "Success", users: data });
-        }
-    })
+    try {
+        db.query(sql, (err, data) => {
+            if (err) return res.json({ Status: "Error" });
+            if (data.length > 0) {
+                return res.json({ Status: "Success", users: data });
+            }
+        })
+    }
+    catch (e) {
+        return res.json({ Status: "Error" });
+    }
+
 })
 
 app.post('/api/auth/editUser', function (req, res) {
     const sql = `UPDATE users SET signInCode="${req.body.permission}" WHERE name="${req.body.student}" `
 
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.log(err);
-            return res.json({ Status: "Error" });
-        } else {
-            return res.json({ Status: "Success" });
-        }
-    })
+    try {
+        db.query(sql, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.json({ Status: "Error" });
+            } else {
+                return res.json({ Status: "Success" });
+            }
+        })
+
+    } catch (e) {
+        return res.json({ Status: "Error" });
+    }
+
 
 })
 
-app.post('/api/hours/signin', function (req, res){
+app.post('/api/hours/signin', function (req, res) {
     console.log(req.body.user);
-
     return res.json({ Status: "Failure" });
 })
 
@@ -151,101 +184,138 @@ app.get('/api/auth/logout', function (req, res) {
 //Handles login form form the API
 app.post('/api/auth/login', function (req, res) {
     const sql = "SELECT * FROM users WHERE email = ?";
-    db.query(sql, [req.body.email], (err, data) => {
-        if (err) return res.json({ Error: "Finding User in Server" });
-        if (data.length > 0) {
-            bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
-                if (err) return res.json({ Error: "Password Compare Error" });
-                if (response) {
-                    const name = data[0].name;
-                    const isAdmin = checkIsAdmin(data[0].signInCode);
-                    const token = jwt.sign({ name, isAdmin }, process.env.PASS_KEY, { expiresIn: "1d" });
-                    req.session.token = token;
-                    return res.json({ Status: "Success", token });
-                } else {
-                    return res.json({ Error: "Password Not Matched In Server" });
-                }
-            });
-        } else {
-            return res.json({ Error: "No Email In Server" });
-        }
-    })
+    try {
+        db.query(sql, [req.body.email], (err, data) => {
+            if (err) return res.json({ Error: "Finding User in Server" });
+            if (data.length > 0) {
+                bcrypt.compare(req.body.password.toString(), data[0].password, (err, response) => {
+                    if (err) return res.json({ Error: "Password Compare Error" });
+                    if (response) {
+                        const name = data[0].name;
+                        const isAdmin = checkIsAdmin(data[0].signInCode);
+                        const token = jwt.sign({ name, isAdmin }, process.env.PASS_KEY, { expiresIn: '365d' });
+                        req.session.token = token;
+                        return res.json({ Status: "Success", token });
+                    } else {
+                        return res.json({ Error: "Password Not Matched In Server" });
+                    }
+                });
+            } else {
+                return res.json({ Error: "No Email In Server" });
+            }
+        })
+    } catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 })
 
 //Returns event lists in DB
 app.get('/api/find/events/all', function (req, res) {
-    const sql = "SELECT * FROM events";
-    db.query(sql, (err, data) => {
-        if (err) return res.json({ Error: "Cannot Find Events In Database From That Year" });
-        if (data) {
-            return res.json({ results: data });
-        }
-    })
+    try {
+        const sql = "SELECT * FROM events";
+        db.query(sql, (err, data) => {
+            if (err) return res.json({ Error: "Cannot Find Events In Database From That Year" });
+            if (data) {
+                return res.json({ results: data });
+            }
+        })
+
+    }
+    catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 
 })
 
 app.post('/api/event/teams', function (req, res) {
-    const event_name = req.headers.event_code;
-    var code = "";
-    const sql = 'SELECT * FROM events WHERE name=?';
-    db.query(sql, [event_name], (err, result) => {
-        if (err) return console.log(err);
-        else {
-            code = result[0].event_code;
-            const team_sql = `SELECT * FROM ${code}`;
-            db.query(team_sql, (err, data) => {
-                if (err) return console.log(err);
-                else {
-                    console.log(data);
-                    return res.json({ results: data });
-
+    try {
+        const event_name = req.headers.event_code;
+        var code = "";
+        const sql = 'SELECT * FROM events WHERE name=?';
+        db.query(sql, [event_name], (err, result) => {
+            if (err) return console.log(err);
+            else {
+                if (result == "") {
+                    console.log("No event");
+                } else {
+                    code = result[0].event_code;
+                    const team_sql = `SELECT * FROM ${code}`;
+                    db.query(team_sql, (err, data) => {
+                        if (err) return console.log(err);
+                        else {
+                            console.log(data);
+                            return res.json({ results: data });
+                        }
+                    })
                 }
-            })
-        }
-    })
+            }
+        })
+    } catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 })
 
 
 app.post('/api/event/scouting/pit', function (req, res) {
-    const event_name = req.headers.event_code;
-    var name = "";
-    const sql = 'SELECT * FROM events WHERE name=?';
-    db.query(sql, [event_name], (err, result) => {
-        if (err) return console.log(err);
-        else {
-            name = result[0].name;
-            var new_name = removeSpaces(name);
-            var currentYear = new Date().getFullYear();
-            const pitInfo = `SELECT * FROM ${currentYear}${new_name}`;
-            db.query(pitInfo, (err, result) => {
-                if (err) return res.json({ Status: "Error" });
-                else {
-                    return res.json({ Status: "Success", data: result })
+    try {
+        const event_name = req.headers.event_code;
+        var name = "";
+        const sql = 'SELECT * FROM events WHERE name=?';
+        db.query(sql, [event_name], (err, result) => {
+            if (err) return console.log(err);
+            else {
+                if (result == '') {
+                    console.log("No Event");
+                } else {
+                    if (result == '') {
+                        console.log("No Event");
+                    } else {
+                        name = result[0].name;
+                        var new_name = removeSpaces(name);
+                        var currentYear = new Date().getFullYear();
+                        const pitInfo = `SELECT * FROM ${currentYear}${new_name}`;
+                        db.query(pitInfo, (err, result) => {
+                            if (err) return res.json({ Status: "Error" });
+                            else {
+                                return res.json({ Status: "Success", data: result })
+                            }
+                        })
+                    }
                 }
-            })
-        }
-    })
+            }
+        })
+    } catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 })
 
 app.post('/api/event/scouting/match', function (req, res) {
-    const event_name = req.headers.event_code;
-    var name = "";
-    const sql = 'SELECT * FROM events WHERE name=?';
-    db.query(sql, [event_name], (err, result) => {
-        if (err) return console.log(err);
-        else {
-            name = result[0].name;
-            var new_name = removeSpaces(name);
-            var currentYear = new Date().getFullYear();
-            const matchInfo = `SELECT * FROM ${currentYear}${new_name}match`;
-            db.query(matchInfo, (err, result) => {
-                if (err) return res.json({ Status: "Error" });
-                else {
-                    return res.json({ Status: "Success", data: result })
+    try {
+        const event_name = req.headers.event_code;
+        var name = "";
+        const sql = 'SELECT * FROM events WHERE name=?';
+        db.query(sql, [event_name], (err, result) => {
+            if (err) return console.log(err);
+            else {
+                if (result == '') {
+                    console.log("No Event");
+                } else {
+                    name = result[0].name;
+                    var new_name = removeSpaces(name);
+                    var currentYear = new Date().getFullYear();
+                    const matchInfo = `SELECT * FROM ${currentYear}${new_name}match`;
+                    db.query(matchInfo, (err, result) => {
+                        if (err) return res.json({ Status: "Error" });
+                        else {
+                            return res.json({ Status: "Success", data: result })
+                        }
+                    })
                 }
-            })
-        }
-    })
+            }
+        })
+    } catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 })
 
 
@@ -256,28 +326,33 @@ app.get('/api/event/:code', function (req, res) {
 
 //Adds a new event to the database after pulling info from TBA
 app.post('/api/events/add', function (req, res) {
-    const event_key = req.body.event_code;
-    const currentYear = new Date().getFullYear();
-    const checkSQL = `SELECT * FROM ${currentYear}${event_key}`;
-    const event_string = `${currentYear}` + `${event_key}`;
-    //Checks if Event is Already There
-    db.query(checkSQL, (err, result) => {
-        if (err) {
-            const sql = `CREATE TABLE ${event_string} (teamNumber int, nickname  nvarchar(255))`;
-            db.query(sql, (err, data) => {
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log(`Created Table For Event: ${event_key}`);
-                    getTeamsByEvent(event_key, currentYear);
-                    getEventName(event_string);
-                    return res.json({ Status: "Success" });
-                }
-            })
-        } else {
-            return res.json({ Status: "Already Created" });
-        }
-    })
+    try {
+        const event_key = req.body.event_code;
+        const currentYear = new Date().getFullYear();
+        const checkSQL = `SELECT * FROM ${currentYear}${event_key}`;
+        const event_string = `${currentYear}` + `${event_key}`;
+        //Checks if Event is Already There
+        db.query(checkSQL, (err, result) => {
+            if (err) {
+                const sql = `CREATE TABLE ${event_string} (teamNumber int, nickname  nvarchar(255))`;
+                db.query(sql, (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        console.log(`Created Table For Event: ${event_key}`);
+                        getTeamsByEvent(event_key, currentYear);
+                        getEventName(event_string);
+                        return res.json({ Status: "Success" });
+                    }
+                })
+            } else {
+                return res.json({ Status: "Already Created" });
+            }
+        })
+    }
+    catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 })
 
 //Handles post request for pit submitions, auto increments per year(2023Blacksburg, 2024Blacksburg)
@@ -316,12 +391,13 @@ app.post('/api/event/pit/submit', function (req, res) {
         req.body.startPosition,
         req.body.autoBalance
     ]
+    try {
 
-    db.query(sql, [values], (err, result) => {
-        if (err) {
+        db.query(sql, [values], (err, result) => {
+            if (err) {
 
-            //Create the table
-            var table_sql = `CREATE TABLE ${new_event} (Number varchar(255),
+                //Create the table
+                var table_sql = `CREATE TABLE ${new_event} (Number varchar(255),
                 Weight varchar(255),
                 Height varchar(255),
                 Length varchar(255),
@@ -335,19 +411,22 @@ app.post('/api/event/pit/submit', function (req, res) {
                 Start_Position varchar(255),
                 Auto_Balance varchar(255))`;
 
-            db.query(table_sql, (err, result) => {
-                if (err) return res.json({ Error: err });
-                else {
-                    //Submit the values again after table creation
-                    db.query(sql, [values]);
-                    return res.json({ Status: "Success" });
-                }
-            })
-        } else {
-            return res.json({ Status: "Success" });
-        }
+                db.query(table_sql, (err, result) => {
+                    if (err) return res.json({ Error: err });
+                    else {
+                        //Submit the values again after table creation
+                        db.query(sql, [values]);
+                        return res.json({ Status: "Success" });
+                    }
+                })
+            } else {
+                return res.json({ Status: "Success" });
+            }
 
-    })
+        })
+    } catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 })
 
 //Handles post request for match submitions, auto increments per year(2023Blacksburg_match, 2024Blacksburg_match)
@@ -391,9 +470,10 @@ app.post('/api/event/match/submit', function (req, res) {
         req.body.teleBalance
     ]
 
-    db.query(sql, [values], (err, result) => {
-        if (err) {
-            const table_sql = `CREATE TABLE ${new_event}match (
+    try {
+        db.query(sql, [values], (err, result) => {
+            if (err) {
+                const table_sql = `CREATE TABLE ${new_event}match (
                 TeamNumber varchar(255),
                 MatchNum varchar(255),
                 Placement varchar(255),
@@ -409,18 +489,21 @@ app.post('/api/event/match/submit', function (req, res) {
                 TeleScore varchar(255),
                 TeleBalance varchar(255)
                 )`;
-            db.query(table_sql, [values], (err, result) => {
-                if (err) return res.json({ Status: err });
-                else {
-                    //Submit the values again after table creation
-                    db.query(sql, [values]);
-                    return res.json({ Status: "Success" });
-                }
-            })
-        } else {
-            return res.json({ Status: "Success" });
-        }
-    })
+                db.query(table_sql, [values], (err, result) => {
+                    if (err) return res.json({ Status: err });
+                    else {
+                        //Submit the values again after table creation
+                        db.query(sql, [values]);
+                        return res.json({ Status: "Success" });
+                    }
+                })
+            } else {
+                return res.json({ Status: "Success" });
+            }
+        })
+    } catch (e) {
+        return res.json({ Status: "Failure" });
+    }
 
 })
 
@@ -452,40 +535,48 @@ app.listen(8081, () => {
 
 //Pulls teams and puts them in database
 function getTeamsByEvent(eventKey, year) {
-    const url = baseURL + '/event/' + year + eventKey + '/teams';
-    var data;
-    var team;
+    try {
+        const url = baseURL + '/event/' + year + eventKey + '/teams';
+        var data;
+        var team;
 
-    request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
-        if (error) {
-            console.log("Error getting team info from TBA");
-        } else {
-            //Parse returned body to JSON object
-            data = JSON.parse(body);
+        request.get({ url: url, headers: { "X-TBA-Auth-Key": tbaId } }, function (error, response, body) {
+            if (error) {
+                console.log("Error getting team info from TBA");
+            } else {
+                //Parse returned body to JSON object
+                data = JSON.parse(body);
 
-            //loop through JSON object to get each team number
-            for (team of data) {
-                insertTeam(`${team.team_number}`, `${team.nickname}`, eventKey, year);
-                console.log("Inserted teams into Database");
-            };
+                //loop through JSON object to get each team number
+                for (team of data) {
+                    insertTeam(`${team.team_number}`, `${team.nickname}`, eventKey, year);
+                    console.log("Inserted teams into Database");
+                };
 
 
-        }
+            }
 
-    });
+        });
+    } catch (e) {
+        console.log("Error getting teams by event");
+    }
 }
 
 //Inserts teams into EventTeams Database
 function insertTeam(team, nickname, eventKey, year) {
-    const event_string = `${year}` + `${eventKey}`;
-    var team_sql = `INSERT INTO ${event_string}(teamNumber, nickname) VALUES (?,?)`;
-    db.query(team_sql, [team, nickname], function (err) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log("Inserted team info");
-        }
-    });
+    try {
+        const event_string = `${year}` + `${eventKey}`;
+        var team_sql = `INSERT INTO ${event_string}(teamNumber, nickname) VALUES (?,?)`;
+        db.query(team_sql, [team, nickname], function (err) {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log("Inserted team info");
+            }
+        });
+    } catch (e) {
+        console.log("Error inserting teams");
+    }
 }
 
 function getEventName(event_code) {
@@ -511,14 +602,18 @@ function getEventName(event_code) {
 }
 
 function insertEvent(city, key) {
-    const sql = `INSERT INTO events (name, event_code) VALUES (?,?)`;
-    db.query(sql, [`${city}`, `${key}`], function (err) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log("Inserted Event");
-        }
-    })
+    try {
+        const sql = `INSERT INTO events (name, event_code) VALUES (?,?)`;
+        db.query(sql, [`${city}`, `${key}`], function (err) {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log("Inserted Event");
+            }
+        })
+    } catch (e) {
+        console.log("Error inserting event");
+    }
 }
 
 function removeSpaces(spacesString) {

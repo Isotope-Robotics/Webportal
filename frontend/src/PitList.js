@@ -81,7 +81,7 @@ function PitList() {
                         })}
                     </select>
                     {" "}
-                    <button type='submit' className='btn btn-success w-20 rounded-2'>Select</button>
+                    <button type='submit' className='btn btn-success w-20 rounded-2 custom-btn'>Select</button>
                 </form>
                 <br />
             </div>
