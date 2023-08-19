@@ -93,7 +93,6 @@ function LogHours() {
               {" "}
               <button type='submit' className='btn btn-danger w-50 rounded-2' onClick={submitSignOut}>Sign Out</button>
               {" "}
-              <button type='submit' className='btn btn-info w-50 rounded-2' onClick={submitCheckHours}>Check My Hours</button>
             </div>
           </form>
 

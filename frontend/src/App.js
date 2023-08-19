@@ -13,6 +13,7 @@ import LogHours from './LogHours';
 import Admin from './Admin';
 import RegisterEvent from './RegisterEvent';
 import EditUsers from './EditUsers';
+import Timesheet from './Timesheet';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <Route path='/match' element={<Match/>}></Route>
       <Route path='/edit_user' element={<EditUsers/>}></Route>
       <Route path='/ScoutingHome' element={<ScoutingHome/>}></Route>
+      <Route path='/check_timesheets'element={<Timesheet/>}></Route>
     </Routes>
    </BrowserRouter>
 

@@ -230,6 +230,24 @@ app.post('/api/hours/signout', function (req, res) {
     }
 })
 
+//Pulls all the entries from the timesheet
+app.get('/api/hours/getAllHours', function (req, res) {
+    let sql = `SELECT * FROM timesheet`
+    try {
+        db.query(sql, (err, data) => {
+            if (err) return res.json({Status: "Failure"})
+            if (data) {
+                console.log(data);
+                return res.json({Status: "Success", results: data});
+            } else {
+                return res.json({Status: "Failure"})
+            }
+        })
+    } catch (e) {
+        return res.json({Status: "Failure"})
+    }
+})
+
 
 //Handles logout function of the API
 app.get('/api/auth/logout', function (req, res) {

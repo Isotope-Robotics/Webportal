@@ -34,7 +34,7 @@ function Admin() {
     event.preventDefault();
     navigate('/new_event');
   }
-  
+
   const handleNewUser = () => {
     navigate('/register');
   }
@@ -47,6 +47,10 @@ function Admin() {
     navigate('/login');
   }
 
+  const checkTimesheet = (event) => {
+    event.preventDefault();
+    navigate('/check_timesheets');
+  }
 
   return (
     <>
@@ -88,6 +92,9 @@ function Admin() {
             </form>
             <form className="forms" onSubmit={handleEditUser}>
               <button type="submit" className='btn btn-danger'>Edit User</button>
+            </form>
+            <form>
+              <button type='submit' className='btn btn-info rounded-2' onClick={checkTimesheet}>Check Timesheets</button>
             </form>
           </div>
         </>
