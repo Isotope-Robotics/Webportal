@@ -199,7 +199,34 @@ app.post('/api/hours/signout', function (req, res) {
     if (req.body.user == "") {
         return res.json({ Status: "Failure" });
     } else {
-        return res.json({ Status: "Success" });
+        let date_obj = new Date();
+        let month = date_obj.getMonth();
+        let day = date_obj.getDate();
+        let year = date_obj.getFullYear();
+        let hour = date_obj.getHours();
+        let min = date_obj.getMinutes();
+
+        let current_time = hour + ":" + min;
+        let current_date = month + "-" + day + "-" + year;
+        let pull_hours_sql = `SELECT * FROM timesheet where date=? AND name=?`;
+
+        try{
+            db.query(pull_hours_sql, [current_date, req.body.user], (err, data) =>{
+                if(err) return res.json({Status: "No Hours For Today"})
+                //If there are hours for the specific day, then we can sign out
+                if (data){
+                    let sql_update = `UPDATE timesheet SET finishtime=? WHERE name=? AND date=?`;
+                    db.query(sql_update, [current_time, req.body.user, current_date], (err, data) => {
+                        if (err) return res.json({Status: "Failure"})
+                        else {
+                            res.json({Status: "Success"});
+                        }
+                    })
+                }
+            })
+        } catch (e){
+            return res.json({Status: "Failure"});
+        }
     }
 })
 

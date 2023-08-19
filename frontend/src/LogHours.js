@@ -7,6 +7,12 @@ import './LogHours.css';
 function LogHours() {
   const [name, setName] = useState('');
   const [auth, setAuth] = useState(false);
+  
+  const [hours, setHours] = useState({
+    name: '',
+    hours: '',
+    total: ''
+  });
 
 
   axios.defaults.withCredentials = true;
@@ -60,6 +66,19 @@ function LogHours() {
       .then(err => console.error(err))
   }
 
+  const submitCheckHours = (event) => {
+    event.preventDefault();
+    axios.get('/api/hours/getAllHours', {user: name})
+      .then(res => {
+        if (res.data.Status === "Success") {
+          //add stuff here
+        } else {
+          //add stuff here
+        }
+      })
+      .then(err => console.error(err))
+  }
+
 
   return (
     <>
@@ -73,6 +92,8 @@ function LogHours() {
               <button type='submit' className='btn btn-success w-50 rounded-2' onClick={submitSignIn}>Sign In</button>
               {" "}
               <button type='submit' className='btn btn-danger w-50 rounded-2' onClick={submitSignOut}>Sign Out</button>
+              {" "}
+              <button type='submit' className='btn btn-info w-50 rounded-2' onClick={submitCheckHours}>Check My Hours</button>
             </div>
           </form>
 
