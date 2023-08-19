@@ -135,7 +135,7 @@ function PitList() {
                 </>
 
                     :
-                    <p>No Selected Event</p>
+                    <p>No Selected Event or No Data Present</p>
                 }
             </div>
 

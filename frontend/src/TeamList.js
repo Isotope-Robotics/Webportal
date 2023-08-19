@@ -68,6 +68,7 @@ function TeamList() {
             </div>
 
             <div className='selectEvent' onSubmit={handleSubmit}>
+            <h1>Team List</h1>
                 <form className='selectForm'>
                     <label className='label-selectEvent' htmlFor='select-event'><strong>Select Event: </strong></label>
                     <select className='select-event' onChange={handleChange}>
@@ -109,7 +110,7 @@ function TeamList() {
                     </>
                     :
                     <>
-                        <p>Select Event</p>
+                        <p>No Selected Event or No Data Present</p>
                     </>
                 }
             </div>
