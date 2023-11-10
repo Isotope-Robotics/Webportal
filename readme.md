@@ -1,6 +1,6 @@
-# Convergence Website
+# Isotope Robotics Webportal
 
-FRC Team 7429 Convergence Website and Management Portal
+FRC Team 9704 and Management Portal
 
 # Under The Hood:
 The project is ran on two different "servers", the react dev server and the express API server. Each server is coded in Javascript using two different types
