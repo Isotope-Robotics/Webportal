@@ -92,16 +92,6 @@ function Login() {
         <div>
           <p>If you want to use the express login use the form below</p>
         </div>
-        <h2>Express Login</h2>
-        <form onSubmit={handleExpress}>
-          <div className='mb-3'>
-            <label htmlFor='express'><strong>Express Code:</strong></label>
-            <input type='text' placeholder='Enter Express Code' name='express' className='form-control rounded-0' onChange={(e) => setExpress({ ...values, code: e.target.value })}></input>
-          </div>
-          <div className='mb-3'>
-            <button type='submit' className='btn btn-success w-100 rounded-0'>Express Log In</button>
-          </div>
-        </form>
         <div>
           <p> By logging in you agree to FRC Team 9709s terms and agreements</p>
           <div className='mb-3'>

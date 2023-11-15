@@ -287,6 +287,7 @@ app.post('/api/auth/login', function (req, res) {
 //Handles login via express code
 app.post('/api/auth/express', function (req, res) {
     const sql = "SELECT * FROM users where express_code = ?";
+    console.log(req.body.express);
     try {
         db.query(sql, [req.body.code], (err, data) => {
             if (err) return res.json({ Error: "Error Finding User" });
