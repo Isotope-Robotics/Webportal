@@ -210,22 +210,22 @@ app.post('/api/hours/signout', function (req, res) {
         let current_date = month + "-" + day + "-" + year;
         let pull_hours_sql = `SELECT * FROM timesheet where date=? AND name=?`;
 
-        try{
-            db.query(pull_hours_sql, [current_date, req.body.user], (err, data) =>{
-                if(err) return res.json({Status: "No Hours For Today"})
+        try {
+            db.query(pull_hours_sql, [current_date, req.body.user], (err, data) => {
+                if (err) return res.json({ Status: "No Hours For Today" })
                 //If there are hours for the specific day, then we can sign out
-                if (data){
+                if (data) {
                     let sql_update = `UPDATE timesheet SET finishtime=? WHERE name=? AND date=?`;
                     db.query(sql_update, [current_time, req.body.user, current_date], (err, data) => {
-                        if (err) return res.json({Status: "Failure"})
+                        if (err) return res.json({ Status: "Failure" })
                         else {
-                            res.json({Status: "Success"});
+                            res.json({ Status: "Success" });
                         }
                     })
                 }
             })
-        } catch (e){
-            return res.json({Status: "Failure"});
+        } catch (e) {
+            return res.json({ Status: "Failure" });
         }
     }
 })
@@ -235,16 +235,16 @@ app.get('/api/hours/getAllHours', function (req, res) {
     let sql = `SELECT * FROM timesheet`
     try {
         db.query(sql, (err, data) => {
-            if (err) return res.json({Status: "Failure"})
+            if (err) return res.json({ Status: "Failure" })
             if (data) {
                 console.log(data);
-                return res.json({Status: "Success", results: data});
+                return res.json({ Status: "Success", results: data });
             } else {
-                return res.json({Status: "Failure"})
+                return res.json({ Status: "Failure" })
             }
         })
     } catch (e) {
-        return res.json({Status: "Failure"})
+        return res.json({ Status: "Failure" })
     }
 })
 
@@ -256,7 +256,7 @@ app.get('/api/auth/logout', function (req, res) {
     return res.json({ Status: "Success" });
 })
 
-//Handles login form form the API
+//Handles login from the API
 app.post('/api/auth/login', function (req, res) {
     const sql = "SELECT * FROM users WHERE email = ?";
     try {
@@ -280,6 +280,25 @@ app.post('/api/auth/login', function (req, res) {
             }
         })
     } catch (e) {
+        return res.json({ Status: "Failure" });
+    }
+})
+
+//Handles login via express code
+app.post('/api/auth/express', function (req, res) {
+    const sql = "SELECT * FROM users where express_code = ?";
+    try {
+        db.query(sql, [req.body.code], (err, data) => {
+            if (err) return res.json({ Error: "Error Finding User" });
+            if (data.length > 0) {
+                const name = data[0].name;
+                const isAdmin = checkIsAdmin(data[0].signInCode);
+                const token = jwt.sign({ name, isAdmin }, process.env.PASS_KEY, { expiresIn: '365d' });
+                req.session.token = token;
+                return res.json({ Status: "Success", token });
+            }
+        })
+    }catch (e) {
         return res.json({ Status: "Failure" });
     }
 })
