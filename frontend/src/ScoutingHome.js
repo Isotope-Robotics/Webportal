@@ -48,7 +48,7 @@ function ScoutingHome() {
                             </div>
 
                             <div className="Welcome">
-                                <h1>Welcome to the Convergence Web Portal</h1>
+                                <h1>Welcome to the Isotope Robotics Web Portal</h1>
                             </div>
 
                             <div className="Info">
@@ -56,7 +56,7 @@ function ScoutingHome() {
                                     <br/>
                                     To view scouting results and team lists visit the results page.</p>
                                     <br/>
-                                <p>To Log Hours For Mechatronics Lab go to Log Hours</p>
+                                <p>To check into the build space go to log hours.</p>
                             </div>
 
                             <div className="react-logo-container" >

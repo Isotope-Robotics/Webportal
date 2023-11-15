@@ -63,9 +63,9 @@ function Login() {
           </div>
           <div className='mb-3'>
             <button type='submit' className='btn btn-success w-100 rounded-0'>Log In</button>
-            <p> By logging in you agree to FRC 7429 Team's terms and agreements</p>
+            <p> By logging in you agree to FRC Team 9709s terms and agreements</p>
             <div className='mb-3'>
-              <Alert key='warning' variant='warning' style={{ textAlign: 'center' }}>If you cannot login please contact: <br />Ethen Brandenburg</Alert>
+              <Alert key='warning' variant='warning' style={{ textAlign: 'center' }}>If you cannot login please contact: <br /> <a href="mailto: ethenbrandenburg@gmail.com">Ethen Brandenburg</a></Alert>
             </div>
           </div>
         </form>

@@ -97,7 +97,7 @@ function LogHours() {
           </form>
 
           <Alert variant='primary' style={{ textAlign: 'center' }}>
-            Please scan the QR Code at CTC and the Events in order to sign in and out.
+            Please scan the QR Code at the build space and the events in order to sign in and out.
             <br />
             If you need help siging in please contact: Ethen B.
           </Alert>

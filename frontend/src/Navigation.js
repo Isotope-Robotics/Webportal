@@ -43,7 +43,7 @@ function Navigation() {
         <Navbar className='bg-custom' variant='dark' expand="sm" collapseOnSelect>
             <Container>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Brand href="/">Convergence Robotics</Navbar.Brand>
+                <Navbar.Brand href="/">Isotope Robotics</Navbar.Brand>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav>
                         {
