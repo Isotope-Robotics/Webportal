@@ -296,11 +296,11 @@ app.post('/api/auth/express', function (req, res) {
                 const token = jwt.sign({ name, isAdmin }, process.env.PASS_KEY, { expiresIn: '365d' });
                 req.session.token = token;
                 return res.json({ Status: "Success", token });
-            }else {
-                return res.json({ Error: "No User In Database" });
+            } else {
+                return res.json({ Error: "Express Code Not Valid" });
             }
         })
-    }catch (e) {
+    } catch (e) {
         return res.json({ Status: "Failure" });
     }
 })
