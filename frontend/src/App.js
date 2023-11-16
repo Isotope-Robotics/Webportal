@@ -14,6 +14,7 @@ import Admin from './Admin';
 import RegisterEvent from './RegisterEvent';
 import EditUsers from './EditUsers';
 import Timesheet from './Timesheet';
+import Express from './Express';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <Route path='/edit_user' element={<EditUsers/>}></Route>
       <Route path='/ScoutingHome' element={<ScoutingHome/>}></Route>
       <Route path='/check_timesheets'element={<Timesheet/>}></Route>
+      <Route path='/express_login' element={<Express/>}></Route>
     </Routes>
    </BrowserRouter>
 

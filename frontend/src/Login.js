@@ -39,25 +39,7 @@ function Login() {
       .then(err => console.error(err))
   }
 
-  //Handle express login
-  axios.defaults.withCredentials = true;
-  const handleExpress = (event) => {
-    event.preventDefault();
-    axios.post('/api/auth/express', values, {
-      withCredentials: true
-    })
-
-      .then(res => {
-        if (res.data.Status === "Success") {
-          navigate('/ScoutingHome');
-          window.location.reload(true);
-        } else {
-          alert(res.data.Error);
-          window.location.reload(false);
-        }
-      })
-      .then(err => console.error(err))
-  }
+  
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
@@ -86,11 +68,11 @@ function Login() {
             <input type='password' placeholder='Enter Password' name='password' className='form-control rounded-0' onChange={(e) => setValues({ ...values, password: e.target.value })}></input>
           </div>
           <div className='mb-3'>
-            <button type='submit' className='btn btn-success w-100 rounded-0'> Full Log In</button>
+            <button type='submit' className='btn btn-success w-100 rounded-0'>Log In</button>
           </div>
         </form>
         <div>
-          <p>If you want to use the express login use the form below</p>
+          <p><a href='/express_login'>Click Here to Access Express Login</a></p>
         </div>
         <div>
           <p> By logging in you agree to FRC Team 9709s terms and agreements</p>
