@@ -11,7 +11,8 @@ function Register() {
     name: '',
     email: '',
     password: '',
-    signInCode: ''
+    signInCode: '',
+    express_code: ''
   });
 
   axios.defaults.withCredentials = true;
@@ -54,11 +55,15 @@ function Register() {
             <input type='text' placeholder='Enter Code' name='yearCode' className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, signInCode: e.target.value })}></input>
           </div>
           <div className='mb-3'>
-            <Alert key='warning' variant='warning' style={{ textAlign: 'center' }}>If you do not have a Sign Up Code please contact Ethen Brandenburg or Paul Lathrop</Alert>
+            <label htmlFor='expressCode'><strong>Express Code:</strong></label>
+            <input type='password' placeholder='Enter Express Code'className='form-control rounded-0' required='true' onChange={(e) => setValues({ ...values, express_code: e.target.value })}></input>
+          </div>
+          <div className='mb-3'>
+            <Alert key='warning' variant='warning' style={{ textAlign: 'center' }}>If you do not have a Sign Up Code please contact Ethen Brandenburg</Alert>
           </div>
           <div className='mb-3'>
             <button type='submit' className='btn btn-success w-100 rounded-0'>Sign Up</button>
-            <p> By registering you agree to FRC 7429 Team's terms and agreements</p>
+            <p> By registering you agree to FRC 9709 Team's terms and agreements</p>
             <Link to="/Login" type='input' className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Login</Link>
           </div>
         </form>

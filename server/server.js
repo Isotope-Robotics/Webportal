@@ -93,7 +93,7 @@ app.get("/api/token", function (req, res, next) {
 
 //Registers new users into the API
 app.post('/api/auth/register', function (req, res) {
-    const sql = "INSERT INTO users (`name`, `email`, `password`, `signInCode`) VALUES (?)";
+    const sql = "INSERT INTO users (`name`, `email`, `password`, `signInCode`, `express_code`) VALUES (?)";
     bcrypt.hash(req.body.password.toString(), salt, (err, hash) => {
         if (err) return res.json({ Error: "Error for Hashing Password" });
 
@@ -102,6 +102,7 @@ app.post('/api/auth/register', function (req, res) {
             req.body.email,
             hash,
             req.body.signInCode,
+            req.body.express_code
         ]
 
         try {

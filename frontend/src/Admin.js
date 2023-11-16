@@ -52,6 +52,11 @@ function Admin() {
     navigate('/check_timesheets');
   }
 
+  const downloadSignInSheet = (event) => {
+    event.preventDefault();
+    window.open("/img/QR_Codes/signin_qrcode_2024.pdf");
+  }
+
   return (
     <>
       <div className='container'>
@@ -95,6 +100,9 @@ function Admin() {
             </form>
             <form>
               <button type='submit' className='btn btn-info rounded-2' onClick={checkTimesheet}>Check Timesheets</button>
+            </form>
+            <form>
+              <button type='submit' className='btn btn-info rounded-2' onClick={downloadSignInSheet}>Download Sign In/Out QR Sheet</button>
             </form>
           </div>
         </>
