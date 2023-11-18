@@ -1,7 +1,7 @@
 import express, { response } from 'express';
 import mysql from 'mysql2';
 import cors from 'cors';
-import jwt, { verify } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -421,6 +421,29 @@ app.get('/api/event/:code', function (req, res) {
     return req.json({ Status: "Success", key: event_key });
 })
 
+//Returns stats about a specific team
+app.get('/api/teams/stats/:event/:team', function (req, res) {
+    const currentYear = new Date().getFullYear();
+    const get_info_sql = `SELECT * FROM ${currentYear}${req.params.event}match WHERE TeamNumber = ${req.params.team}`;
+
+    try {
+        db.query(get_info_sql, (err, result) => {
+            if (err) return res.json({ Status: `Error Retrieving Match Data For Team:${req.params.team} ` });
+            else {
+                if (result.length > 0) {
+                    return res.json({ Status: "Success", stats: result });
+                }
+                else {
+                    return res.json({ Status: "Error" });
+                }
+            }
+        })
+    }
+    catch (e) {
+        return res.json({ Status: "Error" });
+    }
+})
+
 //Adds a new event to the database after pulling info from TBA
 app.post('/api/events/add', function (req, res) {
     try {
@@ -624,11 +647,14 @@ app.post("*", function (req, res) {
     return res.json({ Status: "404 Resource Not Found" })
 })
 
+//NO ENDPOINTS BELOW THIS POINT!!
+
 //Starts the API Server
 app.listen(8081, () => {
     console.log("API Server Running on port: 8081")
 })
 
+//FUNCTIONS FOR ENDPOINTS BELOW HERE!!
 
 //Pulls teams and puts them in database
 function getTeamsByEvent(eventKey, year) {
