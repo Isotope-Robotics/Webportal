@@ -78,11 +78,12 @@ app.get("/api/token", function (req, res, next) {
         //console.log(`Is User Verified: ${verified.name}`);
         name = verified.name;
         let isAdmin = verified.isAdmin;
+        let isKiosk = verified.isKiosk;
         //console.log(`is Users: ${isAdmin}`);
 
         //Add admin handling code for event publishing and user registration
 
-        return res.json({ Status: "Success", user: name, admin: isAdmin });
+        return res.json({ Status: "Success", user: name, admin: isAdmin, kiosk: isKiosk });
     } catch (err) {
         console.log(err);
         console.log(`Is User Verified: False`);
@@ -269,7 +270,8 @@ app.post('/api/auth/login', function (req, res) {
                     if (response) {
                         const name = data[0].name;
                         const isAdmin = checkIsAdmin(data[0].signInCode);
-                        const token = jwt.sign({ name, isAdmin }, process.env.PASS_KEY, { expiresIn: '365d' });
+                        const isKiosk = checkIsKiosk(data[0].signInCode);
+                        const token = jwt.sign({ name, isAdmin, isKiosk }, process.env.PASS_KEY, { expiresIn: '365d' });
                         req.session.token = token;
                         return res.json({ Status: "Success", token });
                     } else {
@@ -294,7 +296,8 @@ app.post('/api/auth/express', function (req, res) {
             if (data.length > 0) {
                 const name = data[0].name;
                 const isAdmin = checkIsAdmin(data[0].signInCode);
-                const token = jwt.sign({ name, isAdmin }, process.env.PASS_KEY, { expiresIn: '365d' });
+                const isKiosk = checkIsKiosk(data[0].signInCode);
+                const token = jwt.sign({ name, isAdmin, isKiosk }, process.env.PASS_KEY, { expiresIn: '365d' });
                 req.session.token = token;
                 return res.json({ Status: "Success", token });
             } else {
@@ -756,4 +759,17 @@ function checkIsAdmin(signInCode) {
     }
 
     return isAdmin;
+}
+
+function checkIsKiosk(signInCode) {
+    let isKiosk = "false";
+    if(signInCode == "student" || signInCode == "admin" || signInCode == "mentor"){
+        isKiosk = " false";
+    } else if (signInCode == "kiosk") {
+        isKiosk = "true";
+    } else {
+        isKiosk = "false"
+    }
+
+    return isKiosk;
 }

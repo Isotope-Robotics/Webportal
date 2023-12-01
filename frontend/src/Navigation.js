@@ -11,6 +11,7 @@ function Navigation() {
     const [auth, setAuth] = useState(false);
     const [name, setName] = useState('');
     const [isAdmin, setIsAdmin] = useState('');
+    const [isKiosk, setIsKiosk] = useState('');
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
@@ -21,6 +22,7 @@ function Navigation() {
                 if (res.data.Status === "Success") {
                     setAuth(true);
                     setIsAdmin(res.data.admin);
+                    setIsKiosk(res.data.kiosk);
                 } else {
                     setAuth(false);
                     setIsAdmin(res.data.admin);
@@ -61,13 +63,24 @@ function Navigation() {
                                         <NavDropdown.Item href="/match_scouting_list">Match Info</NavDropdown.Item>
                                     </NavDropdown>
                                     <Nav.Link href="/LogHours">Log Hours</Nav.Link>
-                    
-                                    { isAdmin === "true" ?
+
+                                    {isAdmin === "true" ?
                                         <Nav.Link href="/admin">Admin</Nav.Link>
                                         :
                                         <p></p>
                                     }
-                                     <button className='btn btn-danger outline-danger' onClick={handleDelete}>Logout</button>
+
+
+                                    {isKiosk === "true" ?
+                                        <>
+                                            <Nav.Link href="/register">Register New Student/Mentor</Nav.Link>
+                                            <Nav.Link href='bob'>hello</Nav.Link>
+                                        </>
+                                        :
+                                        <p></p>
+                                    }
+
+                                    <button className='btn btn-danger outline-danger' onClick={handleDelete}>Logout</button>
                                 </>
                                 :
                                 <>

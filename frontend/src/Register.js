@@ -25,6 +25,7 @@ function Register() {
       .then(res => {
         if (res.data.Status === "Success") {
           alert("User Registration Complete");
+          navigate('/');
         }
         else {
           alert("Error Registering New User, Try Logging In Instead");
