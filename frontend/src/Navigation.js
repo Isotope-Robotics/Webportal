@@ -51,30 +51,34 @@ function Navigation() {
                         {
                             auth ?
                                 <>
-                                    <Nav.Link href="/ScoutingHome">Home</Nav.Link>
-                                    <NavDropdown title="Scouting" id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="/Pit">Pit</NavDropdown.Item>
-                                        <NavDropdown.Item href="/Match">Match</NavDropdown.Item>
-                                    </NavDropdown>
+                                    {isKiosk === "false" ?
+                                        <>
+                                            <Nav.Link href="/ScoutingHome">Home</Nav.Link>
+                                            <NavDropdown title="Scouting" id="basic-nav-dropdown">
+                                                <NavDropdown.Item href="/Pit">Pit</NavDropdown.Item>
+                                                <NavDropdown.Item href="/Match">Match</NavDropdown.Item>
+                                            </NavDropdown>
 
-                                    <NavDropdown title="Results" id="basic-nav-dropdown">
-                                        <NavDropdown.Item href="/team_list">Team Info</NavDropdown.Item>
-                                        <NavDropdown.Item href="/pit_scouting_list">Pit Info</NavDropdown.Item>
-                                        <NavDropdown.Item href="/match_scouting_list">Match Info</NavDropdown.Item>
-                                    </NavDropdown>
-                                    <Nav.Link href="/LogHours">Log Hours</Nav.Link>
+                                            <NavDropdown title="Results" id="basic-nav-dropdown">
+                                                <NavDropdown.Item href="/team_list">Team Info</NavDropdown.Item>
+                                                <NavDropdown.Item href="/pit_scouting_list">Pit Info</NavDropdown.Item>
+                                                <NavDropdown.Item href="/match_scouting_list">Match Info</NavDropdown.Item>
+                                            </NavDropdown>
+                                            <Nav.Link href="/LogHours">Log Hours</Nav.Link>
 
-                                    {isAdmin === "true" ?
-                                        <Nav.Link href="/admin">Admin</Nav.Link>
+                                            {isAdmin === "true" ?
+                                                <Nav.Link href="/admin">Admin</Nav.Link>
+                                                :
+                                                <p></p>
+                                            }
+                                        </>
                                         :
-                                        <p></p>
+                                        <></>
                                     }
-
-
                                     {isKiosk === "true" ?
                                         <>
-                                            <Nav.Link href="/register">Register New Student/Mentor</Nav.Link>
-                                            <Nav.Link href='bob'>hello</Nav.Link>
+                                            <Nav.Link href="/register">Register New Student</Nav.Link>
+                                            <Nav.Link href="https://forms.gle/rzLmjJwSG3kTUfhG7">New Student Form</Nav.Link>
                                         </>
                                         :
                                         <p></p>

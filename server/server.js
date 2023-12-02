@@ -763,12 +763,12 @@ function checkIsAdmin(signInCode) {
 
 function checkIsKiosk(signInCode) {
     let isKiosk = "false";
-    if(signInCode == "student" || signInCode == "admin" || signInCode == "mentor"){
-        isKiosk = " false";
+    if (signInCode == "student") {
+        isKiosk = "false";
     } else if (signInCode == "kiosk") {
         isKiosk = "true";
     } else {
-        isKiosk = "false"
+        isKiosk = "false";
     }
 
     return isKiosk;
