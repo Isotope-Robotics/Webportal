@@ -2,7 +2,7 @@ import express, { response } from 'express';
 import mysql from 'mysql2';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import session from 'express-session';
