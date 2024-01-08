@@ -100,16 +100,17 @@ function MatchList() {
                                     <th>Match Number</th>
                                     <th>Auto Placement</th>
                                     <th>Auto Mobility</th>
-                                    <th>Auto Balance</th>
-                                    <th>Auto Cone High</th>
-                                    <th>Auto Cone Low</th>
-                                    <th>Auto Cube</th>
-                                    <th>Auto Score</th>
-                                    <th>Tele Cone High</th>
-                                    <th>Tele Cone Low</th>
-                                    <th>Tele Cube</th>
-                                    <th>Tele Score</th>
-                                    <th>Endgame Balance</th>
+                                    <th>Auto Amp</th>
+                                    <th>Auto Speaker</th>
+                                    <th>Amp Notes</th>
+                                    <th>Speaker Notes</th>
+                                    <th>Amped Notes</th>
+                                    <th>Parked</th>
+                                    <th>OnStage</th>
+                                    <th>Spotlit</th>
+                                    <th>Harmony</th>
+                                    <th>Trap</th>
+                                    <th>Win/Loss/Tie</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -120,16 +121,17 @@ function MatchList() {
                                             <td>{matchInfo.MatchNum}</td>
                                             <td>{matchInfo.Placement}</td>
                                             <td>{matchInfo.Mobility}</td>
-                                            <td>{matchInfo.AutoBalance}</td>
-                                            <td>{matchInfo.ConeHigh}</td>
-                                            <td>{matchInfo.ConeLow}</td>
-                                            <td>{matchInfo.CubeScore}</td>
-                                            <td>{matchInfo.AutoScore}</td>
-                                            <td>{matchInfo.TeleConeHigh}</td>
-                                            <td>{matchInfo.TeleConeLow}</td>
-                                            <td>{matchInfo.TeleCube}</td>
-                                            <td>{matchInfo.TeleScore}</td>
-                                            <td>{matchInfo.TeleBalance}</td>
+                                            <td>{matchInfo.AutoAmpNote}</td>
+                                            <td>{matchInfo.AutoSpeakerNote}</td>
+                                            <td>{matchInfo.AmpNote}</td>
+                                            <td>{matchInfo.SpeakerNote}</td>
+                                            <td>{matchInfo.AmpedSpeakerNote}</td>
+                                            <td>{matchInfo.Park}</td>
+                                            <td>{matchInfo.OnStage}</td>
+                                            <td>{matchInfo.Spotlit}</td>
+                                            <td>{matchInfo.Harmony}</td>
+                                            <td>{matchInfo.TrapNote}</td>
+                                            <td>{matchInfo.WinLossTie}</td>
                                         </tr>
                                     )
                                 })}

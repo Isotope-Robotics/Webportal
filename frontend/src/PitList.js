@@ -102,11 +102,11 @@ function PitList() {
                                     <th>Drivetrain:</th>
                                     <th>DT Motors:</th>
                                     <th>Free Speed:</th>
+                                    <th>Start Position:</th>
                                     <th>Pickup:</th>
                                     <th>Scoring:</th>
-                                    <th>Hang:</th>
-                                    <th>Start Position:</th>
-                                    <th>Balance:</th>
+                                    <th>OnStage:</th>
+                                    <th>Trap:</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -120,12 +120,12 @@ function PitList() {
                                             <td>{pitInfo.Width}</td>
                                             <td>{pitInfo.Drivetrain}</td>
                                             <td>{pitInfo.Drivetrain_Motors}</td>
-                                            <td>{pitInfo.FreeSpeed}</td>
+                                            <td>{pitInfo.FreeSpeed}</td> 
+                                            <td>{pitInfo.Start_Position}</td>
                                             <td>{pitInfo.Element_Pickup}</td>
                                             <td>{pitInfo.Element_Scoring}</td>
-                                            <td>{pitInfo.Hang_Charge}</td>
-                                            <td>{pitInfo.Start_Position}</td>
-                                            <td>{pitInfo.Auto_Balance}</td>
+                                            <td>{pitInfo.OnStage}</td>
+                                            <td>{pitInfo.Trap}</td>
                                         </tr>
                                     )
                                 })}

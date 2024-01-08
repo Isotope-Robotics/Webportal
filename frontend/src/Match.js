@@ -20,8 +20,7 @@ function Match() {
     spotlit: "",
     harmony: "",
     trapNote: "",
-    winLossTie: "",
-    cards: ""
+    winLossTie: ""
   });
 
   //Populates state varibles with possible CHS events
