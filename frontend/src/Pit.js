@@ -14,11 +14,11 @@ function Pit() {
     driveTrain: '',
     motors: '',
     freeSpeed: '',
-    elementPickup: '',
-    elementScoring: '',
-    hangChargestation: '',
-    startPosition: '',
-    autoBalance: ''
+    start_Position: '',
+    element_Pickup: '',
+    element_Scoring: '',
+    onStage: '',
+    trap: ''
   });
 
 
@@ -94,7 +94,7 @@ function Pit() {
           </div>
 
           <div className='mb-3'>
-            <label for="robotDrivetrain">Robot Drivetrain</label>
+            <label for="robotDrivetrain"><strong>Robot Drivetrain:</strong></label>
             {" "}
             <select name="robotDrivetrain" id="robotDrivetrain" onChange={(e) => setValues({ ...values, driveTrain: e.target.value })}>
               <option id="unknown" name="unknown" value="unknown">Unknown</option>
@@ -105,7 +105,7 @@ function Pit() {
           </div>
 
           <div className='mb-3'>
-            <label for="robotDrivetrainMotors">Drivetrain Motors:</label>
+            <label for="robotDrivetrainMotors"><strong>Drivetrain Motors:</strong></label>
             {" "}
             <select name="robotDrivetrainMotors" id="robotDrivetrainMotors" onChange={(e) => setValues({ ...values, motors: e.target.value })}>
               <option id="unknown" name="unknown" value="unknown">Unknown</option>
@@ -121,47 +121,8 @@ function Pit() {
           </div>
 
           <div className='mb-3'>
-            <label for="gameElementPickup">Element Pickup:</label>
-            {" "}
-            <select name="gameElementPickup" id="gameElementPickup" onChange={(e) => setValues({ ...values, elementPickup: e.target.value })}>
-              <option id="unknown" name="unknown" value="unknown">Unknown</option>
-              <option id="Cone Floor" name="Cone Floor" value="Cone Floor">Cone Floor</option>
-              <option id="Cone Substation" name="Cone Substation" value="Cone Substation">Cone Substation</option>
-              <option id="Cube Floor" name="Cube Floor" value="Cube Floor">Cube Floor</option>
-              <option id="Cube Substation" name="Cube Substation" value="Cube Substation">Cube Substation</option>
-              <option id="Both Substation" name="Both Substation" value="Both Substation">Both Substation</option>
-              <option id="Both Floor" name="Both Floor" value="Both Floor">Both Floor</option>
-            </select>
-          </div>
-
-          <div className='mb-3'>
-            <label for="gameElementScoring">Element Scoring:</label>
-            <select name="gameElementScoring" id="gameElementScoring" onChange={(e) => setValues({ ...values, elementScoring: e.target.value })}>
-              <option id="unknown" name="unknown" value="unknown">Unknown</option>
-              <option id="Floor" name="Floor" value="Floor">Floor</option>
-              <option id="Mid Cone" name="Mid Cone" value="Mid Cone">Mid Cone</option>
-              <option id="Mid Cube" name="Mid Cube" value="Mid Cube">Mid Cube</option>
-              <option id="High Cone" name="High Cone" value="High Cone">High Cone</option>
-              <option id="High Cube" name="High Cube" value="High Cube">High Cube</option>
-              <option id="Both Low/Floor" name="Both Low/Floor" value="Both Low/Floor">Both Low/Floor</option>
-              <option id="Both High" name="Both High" value="Both High">Both High</option>
-              <option id="All" name="All" value="All">All</option>
-              <option id="Pushbot Only" name="Pushbot Only" value="Pushbot Only">Pushbot Only</option>
-            </select>
-          </div>
-
-          <div className='mb-3'>
-            <label for="hangOffChargeStation">Charge Station:</label>
-            <select name="hangOffChargeStation" id="hangOffChargeStation" onChange={(e) => setValues({ ...values, hangChargestation: e.target.value })}>
-              <option id="unknown" name="unknown" value="unknown">Unknown</option>
-              <option id="Yes" name="Yes" value="Yes">Yes</option>
-              <option id="No" name="No" value="No">No</option>
-            </select>
-          </div>
-
-          <div className='mb-3'>
-            <label for="autoStartPosition">Auto Start Position:</label>
-            <select name="autoStartPosition" id="autoStartPosition" onChange={(e) => setValues({ ...values, startPosition: e.target.value })}>
+            <label for="autoStartPosition"> <strong>Auto Start Position:</strong></label>
+            <select name="autoStartPosition" id="autoStartPosition" onChange={(e) => setValues({ ...values, start_Position: e.target.value })}>
               <option id="unknown" name="unknown" value="unknown">Unknown</option>
               <option id="Left" name="Left" value="Left">Left</option>
               <option id="Center" name="Center" value="Center">Center</option>
@@ -170,8 +131,27 @@ function Pit() {
           </div>
 
           <div className='mb-3'>
-            <label for="autoBalance">Auto Balance:</label>
-            <select name="autoBalance" id="autoBalance" onChange={(e) => setValues({ ...values, autoBalance: e.target.value })}>
+            <label htmlFor='element_Pickup'><strong>Note Pickup Method:</strong></label>
+            <input type='text' placeholder='Enter Note Pickup Method' name='element_Pickup' className='form-control rounded-0' onChange={(e) => setValues({ ...values, element_Pickup: e.target.value })}></input>
+          </div>
+
+          <div className='mb-3'>
+            <label htmlFor='element_Scoring'><strong>Note Scoring Method:</strong></label>
+            <input type='text' placeholder='Enter Note Scoring Method' name='element_Scoring' className='form-control rounded-0' onChange={(e) => setValues({ ...values, element_Scoring: e.target.value })}></input>
+          </div>
+      
+          <div className='mb-3'>
+            <label for="onStage"><strong>OnStage (Climb):</strong></label>
+            <select name="onStage" id="onStage" onChange={(e) => setValues({ ...values, onStage: e.target.value })}>
+              <option id="unknown" name="unknown" value="unknown">Unknown</option>
+              <option id="No" name="No" value="No">No</option>
+              <option id="Yes" name="Yes" value="Yes">Yes</option>
+            </select>
+          </div>
+
+          <div className='mb-3'>
+            <label for="trap"><strong>Trap Score:</strong></label>
+            <select name="trap" id="trap" onChange={(e) => setValues({ ...values, trap: e.target.value })}>
               <option id="unknown" name="unknown" value="unknown">Unknown</option>
               <option id="No" name="No" value="No">No</option>
               <option id="Yes" name="Yes" value="Yes">Yes</option>
