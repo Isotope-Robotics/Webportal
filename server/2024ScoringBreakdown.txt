@@ -1,0 +1,42 @@
+2024 Match Scoring Breakdown
+
+AUTO:
+
+Mobility varchar(255),
+AutoAmpNote varchar(255),
+AutoSpeakerNote varchar(255),
+
+TELEOP:
+AmpNote varchar(255),
+SpeakerNote varchar(255),
+AmpedSpeakerNote varchar(255),
+Park varchar(255),
+OnStage varchar(255),
+Spotlit varchar(255),
+Harmony varchar(255),
+TrapNote varchar(255),
+
+ENGAME:
+Melody varchar(255),
+Ensemble varchar(255),
+WinLossTie varchar(255),
+Cards varchar(255)
+
+                TeamNumber varchar(255),
+                MatchNum varchar(255),
+                Placement varchar(255),
+                Mobility varchar(255),
+                AutoAmpNote varchar(255),
+                AutoSpeakerNote varchar(255),
+                AmpNote varchar(255),
+                SpeakerNote varchar(255),
+                AmpedSpeakerNote varchar(255),
+                Park varchar(255),
+                OnStage varchar(255),
+                Spotlit varchar(255),
+                Harmony varchar(255),
+                TrapNote varchar(255), 
+                Melody varchar(255),
+                Ensemble varchar(255),
+                WinLossTie varchar(255),
+                Cards varchar(255)               

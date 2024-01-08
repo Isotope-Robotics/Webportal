@@ -493,11 +493,11 @@ app.post('/api/event/pit/submit', function (req, res) {
         Drivetrain,
         Drivetrain_Motors,
         FreeSpeed,
+        Start_Position,
         Element_Pickup,
         Element_Scoring,
-        Hang_Charge,
-        Start_Position,
-        Auto_Balance) VALUES (?)`;
+        OnStage,
+        Trap) VALUES (?)`;
 
     const values = [
         req.body.number,
@@ -508,11 +508,11 @@ app.post('/api/event/pit/submit', function (req, res) {
         req.body.driveTrain,
         req.body.motors,
         req.body.freeSpeed,
-        req.body.elementPickup,
-        req.body.elementScoring,
-        req.body.hangChargestation,
-        req.body.startPosition,
-        req.body.autoBalance
+        req.body.start_Position,
+        req.body.element_Pickup,
+        req.body.element_Scoring,
+        req.body.onStage,
+        req.body.trap
     ]
     try {
 
@@ -528,11 +528,11 @@ app.post('/api/event/pit/submit', function (req, res) {
                 Drivetrain varchar(255),
                 Drivetrain_Motors varchar(255),
                 FreeSpeed varchar(255),
+                Start_Position varchar(255),
                 Element_Pickup varchar(255),
                 Element_Scoring varchar(255),
-                Hang_Charge varchar(255),
-                Start_Position varchar(255),
-                Auto_Balance varchar(255))`;
+                OnStage varchar(255),
+                Trap varchar(255))`;
 
                 db.query(table_sql, (err, result) => {
                     if (err) return res.json({ Error: err });
@@ -560,57 +560,69 @@ app.post('/api/event/match/submit', function (req, res) {
     const new_event = removeSpaces(sql_event);
 
     const sql = `INSERT INTO ${new_event}match (
-        TeamNumber,
-        MatchNum,
-        Placement,
-        Mobility,
-        AutoBalance,
-        ConeHigh,
-        ConeLow,
-        CubeScore,
-        AutoScore,
-        TeleConeHigh,
-        TeleConeLow,
-        TeleCube,
-        TeleScore,
-        TeleBalance
+                TeamNumber,
+                MatchNum,
+                Placement,
+                Mobility,
+                AutoAmpNote,
+                AutoSpeakerNote,
+                AmpNote,
+                SpeakerNote,
+                AmpedSpeakerNote,
+                Park,
+                OnStage,
+                Spotlit,
+                Harmony,
+                TrapNote, 
+                Melody,
+                Ensemble,
+                WinLossTie,
+                Cards               
     ) VALUES (?)`;
 
     const values = [
         req.body.teamNumber,
-        req.body.matchNumber,
+        req.body.matchNum,
         req.body.placement,
         req.body.mobility,
-        req.body.autoBalance,
-        req.body.coneHigh,
-        req.body.coneLow,
-        req.body.cubeScore,
-        req.body.autoScore,
-        req.body.teleConeHigh,
-        req.body.teleConeLow,
-        req.body.teleCube,
-        req.body.teleScore,
-        req.body.teleBalance
+        req.body.autoAmpNote,
+        req.body.autoSpeakerNote,
+        req.body.ampNote,
+        req.body.speakerNote,
+        req.body.ampedSpeakerNote,
+        req.body.park,
+        req.body.onStage,
+        req.body.spotlit,
+        req.body.harmony,
+        req.body.trapNote, 
+        req.body.melody,
+        req.body.ensemble,
+        req.body.winLossTie,
+        req.body.cards   
     ]
 
     try {
         db.query(sql, [values], (err, result) => {
             if (err) {
                 const table_sql = `CREATE TABLE ${new_event}match (
-                TeamNumber varchar(255),
-                MatchNum varchar(255),
-                Placement varchar(255),
-                Mobility varchar(255),
-                AutoBalance varchar(255),
-                ConeHigh varchar(255),
-                ConeLow varchar(255),
-                CubeScore varchar(255),
-                AutoScore varchar(255),
-                TeleConeHigh varchar(255),
-                TeleConeLow varchar(255),
-                TeleCube varchar(255),
-                TeleScore varchar(255),
-                TeleBalance varchar(255)
+                    TeamNumber varchar(255),
+                    MatchNum varchar(255),
+                    Placement varchar(255),
+                    Mobility varchar(255),
+                    AutoAmpNote varchar(255),
+                    AutoSpeakerNote varchar(255),
+                    AmpNote varchar(255),
+                    SpeakerNote varchar(255),
+                    AmpedSpeakerNote varchar(255),
+                    Park varchar(255),
+                    OnStage varchar(255),
+                    Spotlit varchar(255),
+                    Harmony varchar(255),
+                    TrapNote varchar(255), 
+                    Melody varchar(255),
+                    Ensemble varchar(255),
+                    WinLossTie varchar(255),
+                    Cards varchar(255)               
                 )`;
                 db.query(table_sql, [values], (err, result) => {
                     if (err) return res.json({ Status: err });
