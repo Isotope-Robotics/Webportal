@@ -574,10 +574,7 @@ app.post('/api/event/match/submit', function (req, res) {
                 Spotlit,
                 Harmony,
                 TrapNote, 
-                Melody,
-                Ensemble,
-                WinLossTie,
-                Cards               
+                WinLossTie           
     ) VALUES (?)`;
 
     const values = [
@@ -595,10 +592,7 @@ app.post('/api/event/match/submit', function (req, res) {
         req.body.spotlit,
         req.body.harmony,
         req.body.trapNote, 
-        req.body.melody,
-        req.body.ensemble,
-        req.body.winLossTie,
-        req.body.cards   
+        req.body.winLossTie
     ]
 
     try {
@@ -619,10 +613,7 @@ app.post('/api/event/match/submit', function (req, res) {
                     Spotlit varchar(255),
                     Harmony varchar(255),
                     TrapNote varchar(255), 
-                    Melody varchar(255),
-                    Ensemble varchar(255),
-                    WinLossTie varchar(255),
-                    Cards varchar(255)               
+                    WinLossTie varchar(255)             
                 )`;
                 db.query(table_sql, [values], (err, result) => {
                     if (err) return res.json({ Status: err });

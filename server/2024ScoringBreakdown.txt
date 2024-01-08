@@ -36,7 +36,5 @@ Cards varchar(255)
                 Spotlit varchar(255),
                 Harmony varchar(255),
                 TrapNote varchar(255), 
-                Melody varchar(255),
-                Ensemble varchar(255),
                 WinLossTie varchar(255),
                 Cards varchar(255)               
