@@ -58,8 +58,8 @@ function EditUsers() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const values = {
-           student: selectedUser,
-           permission: selectedPermission
+            student: selectedUser,
+            permission: selectedPermission
         }
 
         axios.post('/api/auth/editUser', values)
@@ -75,8 +75,8 @@ function EditUsers() {
 
 
     return (
-        <div className='d-flex justify-content-center bg-custom align-items-center vh-100 form-custom'>
-            <div className='bg-white p-3 rounded signin-custom'>
+        <div>
+            <div>
                 <h3>Users:</h3>
                 <div className='mb-3'>
                     <table>
@@ -100,38 +100,38 @@ function EditUsers() {
                         </tbody>
                     </table>
                 </div>
-
-                <form className='editUserForm' onSubmit={handleSubmit}>
-                    <div className='edit'>
-                        <p>Edit User:</p>
-                        <label htmlFor='studentName'><strong>Name:</strong></label>
-                        {" "}
-                        <select className='selectStudent' onChange={handleStudentChange}>
-                            <option>Select Student</option>
-                            {users.map((student, index) => {
-                                return (
-                                    <option>{student.name}</option>
-                                )
-                            })}
-                        </select>
-                        <br />
-                        <br />
-                        <label htmlFor='studentPermission'><strong>Permissions:</strong></label>
-                        {" "}
-                        <select className='selectPermission' onChange={handleSelectedPermission}>
-                            <option>Select Permission</option>
-                            <option value="admin">Admin</option>
-                            <option value="student">Student</option>
-                            <option value="mentor">Mentor</option>
-                        </select>
-                        <br />
-                        <br />
-                        <button type='submit' className='btn btn-success w-20 rounded-2'>Submit</button>
-                    </div>
-
-
-                </form>
             </div >
+
+            <form className='editUserForm justify-content-center' onSubmit={handleSubmit}>
+                <div className='edit'>
+                    <p>Edit User:</p>
+                    <label htmlFor='studentName'><strong>Name:</strong></label>
+                    {" "}
+                    <select className='selectStudent' onChange={handleStudentChange}>
+                        <option>Select Student</option>
+                        {users.map((student, index) => {
+                            return (
+                                <option>{student.name}</option>
+                            )
+                        })}
+                    </select>
+                    <br />
+                    <br />
+                    <label htmlFor='studentPermission'><strong>Permissions:</strong></label>
+                    {" "}
+                    <select className='selectPermission' onChange={handleSelectedPermission}>
+                        <option>Select Permission</option>
+                        <option value="admin">Admin</option>
+                        <option value="student">Student</option>
+                        <option value="mentor">Mentor</option>
+                    </select>
+                    <br />
+                    <br />
+                    <button type='submit' className='btn btn-success w-20 rounded-2'>Submit</button>
+                </div>
+
+
+            </form>
         </div >
     )
 }

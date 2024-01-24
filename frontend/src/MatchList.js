@@ -98,7 +98,7 @@ function MatchList() {
                                 <tr>
                                     <th>Team Number</th>
                                     <th>Match Number</th>
-                                    <th>Auto Placement</th>
+                                    <th>Auto Placement</th> 
                                     <th>Auto Mobility</th>
                                     <th>Auto Amp</th>
                                     <th>Auto Speaker</th>

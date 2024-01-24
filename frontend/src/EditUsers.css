@@ -1,11 +1,17 @@
-table {
-    width: 100%;
+.table {
+    align-items: center;
+    width: 90vw;
+    height: 70vh;
     border: 1px solid black;
   }
   
   th, td {
     text-align: center;
     border: 1px solid black;
+  }
+
+  h3{
+    text-align: center;
   }
 
   th {
@@ -25,4 +31,13 @@ table {
 
   .btn{
     margin-bottom: 5%;
+  }
+
+  @media screen and (max-width:960px) {
+    .table {
+      align-items: center;
+      width: 20vw;
+      height: 70vh;
+      border: 1px solid black;
+    }
   }
