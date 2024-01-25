@@ -5,3 +5,47 @@
 .custom-btn {
     margin-top: 5%;
 }
+
+.table {
+    align-items: center;
+    width: 90vw;
+    height: 70vh;
+    border: 1px solid black;
+  }
+  
+  th, td {
+    text-align: center;
+    border: 1px solid black;
+  }
+
+  h3{
+    text-align: center;
+  }
+
+  th {
+    padding: 8px;
+  }
+  td {
+    padding: 3px;
+  }
+  
+  tr:nth-child(even){background-color: #f2f2f2}
+
+  .edit {
+    justify-content: center;
+    text-align: center;
+    border: 3px solid black;
+  }
+
+  .btn{
+    margin-bottom: 5%;
+  }
+
+  @media screen and (max-width:960px) {
+    .table {
+      align-items: center;
+      width: 20vw;
+      height: 70vh;
+      border: 1px solid black;
+    }
+  }

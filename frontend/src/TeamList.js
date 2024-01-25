@@ -68,7 +68,7 @@ function TeamList() {
             </div>
 
             <div className='selectEvent' onSubmit={handleSubmit}>
-            <h1>Team List</h1>
+                <h1>Team List</h1>
                 <form className='selectForm'>
                     <label className='label-selectEvent' htmlFor='select-event'><strong>Select Event: </strong></label>
                     <select className='select-event' onChange={handleChange}>
@@ -85,28 +85,30 @@ function TeamList() {
                 <br />
             </div>
 
-            <div className='tables'>
+            <div>
                 {gotTeam ?
                     <>
                         <h2>Teams From: {selectEvent}</h2>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Team Number:</th>
-                                    <th>Team Name:</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {teams.map((importedTeams, index) => {
-                                    return (
-                                        <tr>
-                                            <td>{importedTeams.teamNumber}</td>
-                                            <td>{importedTeams.nickname}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
+                        <div className='mb-3'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Team Number:</th>
+                                        <th>Team Name:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {teams.map((importedTeams, index) => {
+                                        return (
+                                            <tr>
+                                                <td>{importedTeams.teamNumber}</td>
+                                                <td>{importedTeams.nickname}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </>
                     :
                     <>
