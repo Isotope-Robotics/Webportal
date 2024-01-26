@@ -71,9 +71,9 @@ function Timesheet() {
 
                     {gotTimesheet ?
 
-                        <>
-                            <div className='table-container'>
-                                <Table striped bordered hover>
+                        <>mb-3
+                            <div className=''>
+                                <table>
                                     <thead>
                                         <tr>
                                             <th>Name:</th>
@@ -95,7 +95,7 @@ function Timesheet() {
                                             )
                                         })}
                                     </tbody>
-                                </Table>
+                                </table>
                             </div>
                         </>
 
